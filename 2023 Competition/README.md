@@ -1,4 +1,12 @@
 # 2023 Main Round Code Archive
+
+This folder contains the code submissions for the 2023 Main Round and Test Round of the League of Robot Runners competition. 
+The folder is organised by team names, and each team has a separate folder that contains the submitted code organised with the commit hash of the submission.
+In this folder, you will find:
+- The codes for each entry that is on the leaderboard of the Main Round and Test Round.
+- The codes for each submission that creates the best-known solutions for each benchmark instance.
+- Summary tables with details of entries: such as team name, the achieved score, the total errands finished on each benchmark instance, and the link to the corresponding code.
+  
 ## Teams and Entries:
 ### Main Round
 <table>
@@ -667,7 +675,7 @@
 </tr>
 </table>
 
-### Test Round:
+### Test Round
 <table>
 <tr>
 <th rowspan='2'>Team</th>

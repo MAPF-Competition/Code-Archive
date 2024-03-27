@@ -1,0 +1,6 @@
+mkdir build
+cd build
+# cmake .. -DCMAKE_BUILD_TYPE=DEBUG  -DPRINT_DEBUG=on
+# cmake .. -DCMAKE_BUILD_TYPE=DEBUG -DPRINT_DEBUG=off
+cmake .. -DCMAKE_BUILD_TYPE=RELEASE -DPRINT_DEBUG=on
+make -j10

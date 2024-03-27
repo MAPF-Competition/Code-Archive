@@ -1,0 +1,35 @@
+
+The files in this folder are licensed with two different licenses. 
+The following files are licensed under the "LICENSE_ROBOT_RUNNER":
+    Debug_and_Visualise_Your_Planner.md
+    Input_Output_Format.md
+    Prepare_Your_Planner.md
+    RunInDocker.sh
+    Submission_Instruction.md
+    Working_with_Preprocessed_Data.md
+    example_problems/*
+    image/*
+    inc/ActionModel.h
+    inc/CompetitionSystem.h
+    inc/Evaluation.h
+    inc/Grid.h
+    inc/Logger.h
+    inc/SharedEnv.h
+    inc/States.h
+    inc/Tasks.h
+    inc/common.h
+    python/MAPFbinding.cpp
+    python/pyEnvironment.hpp
+    python/pyMAPFPlanner.cpp
+    python/pyMAPFPlanner.hpp
+    src/ActionModel.cpp
+    src/CompetitionSystem.cpp
+    src/Evaluation.cpp
+    src/Grid.cpp
+    src/Logger.cpp
+    src/States.cpp
+    src/common.cpp
+    src/driver.cpp
+    upgrade_start_kit.sh
+
+All other files (if not separately stated in the file) are licensed under the "LICENSE_PARTICIPANT".

@@ -1,0 +1,8 @@
+{
+    "mapFile": "maps/self-test.map",
+    "agentFile": "agents/self_map.agents",
+    "teamSize": 1,
+    "taskFile": "tasks/self_map.tasks",
+    "numTasksReveal": 1,
+    "taskAssignmentStrategy": "roundrobin"
+}

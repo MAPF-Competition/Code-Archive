@@ -1,0 +1,2 @@
+bitarray==2.8.1
+gurobipy==10.0.2

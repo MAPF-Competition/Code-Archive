@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAPF Viewer</title>
+  <meta name="author" content="Aldo Gonzalez-Lorenzo">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="include/bootstrap.min.css">
+  <style>
+    div#app { border: 1px solid; }
+    input#timestep { width: 5rem; }
+    input#select-agent { width: 5rem; }
+    input#location { width: 6rem; }
+    ul#tasks { height: 30rem; overflow: scroll; }
+    select#maps { width: 15rem; }
+    pre#log { height: 10rem; overflow: scroll; }
+    span.coords { display: inline-block; width: 5rem; }
+    #location-coords { padding-left: 1rem; }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <h1 class="h3">MAPF Viewer</h1>
+    <p>
+      Viewer for the solution to the instances in <a href="https://www.leagueofrobotrunners.org/">The League of Robot Runners</a>. Other viewers: <a href="../distance-viewer/index.html">distance</a>, <a href="../barriers-viewer/index.html">barriers</a>
+    </p>
+    <div class="row mt-3">
+      <div class="col-auto">
+        <div id="app"></div>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col-4">
+            <p class="mb-1">
+              <select class="form-select" id="maps">
+                <option value="Paris_1_256">Paris_1_256</option>
+                <option value="random-32-32-20" selected>random-32-32-20</option>
+                <option value="brc202d">brc202d</option>
+                <option value="sortation_large">sortation_large</option>
+                <option value="warehouse_large">warehouse_large</option>
+                <option value="warehouse_small">warehouse_small</option>
+              </select>
+            </p>
+            <p class="mb-1">
+              <button type="button" class="btn btn-secondary btn-sm" id="reset">Reset viewer</button>
+              <span id="coords"></span>
+            </p>
+            <p class="mb-1">
+              <label>
+                  Location <input type="number" id="location" min="0" value="0">
+              </label>
+              <span id="location-coords"></span>
+            </p>
+            <p>
+              <input type="file" id="fileInput" class="form-control form-control-sm">
+            </p>
+          </div>
+          <div class="col-8">
+            <pre id="log"></pre>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p>
+              <label>Time step <input type="number" id="timestep" min="0" value="0"></label>
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="prev">&lt;</button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="next">&gt;</button>
+              <label style="margin-left: 2rem;">Agent <input type="number" id="select-agent" min="0" value="0"></label>
+            </p>
+            <ul id="tasks"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<!-- <script src="https://cdn.jsdelivr.net/npm/@svgdotjs/svg.js@3.0/dist/svg.min.js"></script> -->
+  <script src="include/svg.min.js"></script>
+  <script src="include/svg.panzoom.js"></script>
+  <script src="include/svg.draggable.js"></script>
+  <script src="main.js"></script>
+  <script src="data.js"></script>
+  <script>
+    const app = new Application()
+    document.querySelector('#reset').addEventListener('click', () => {
+      app.reset_viewer()
+    })
+    document.querySelector('#prev').addEventListener('click', () => {
+      app.previous_move()
+    })
+    document.querySelector('#next').addEventListener('click', () => {
+      app.next_move()
+    })
+    document.querySelector('#timestep').addEventListener('change', (e) => {
+      app.set_time(Number(e.target.value))
+    })
+    document.querySelector('#location').addEventListener('change', (e) => {
+      app.show_coordinates(Number(e.target.value))
+    })
+    document.querySelector('#select-agent').addEventListener('change', (e) => {
+      document.querySelector(`#li-a${e.target.value}`).scrollIntoView({ behavior: 'smooth' })
+    })
+    document.querySelector('#maps').addEventListener('change', (e) => {
+      app.set_instance(e.target.value)
+    })
+    document.querySelector('#fileInput').addEventListener('change', (e) => {
+      const file = e.target.files[0]
+      if (!file) {
+        return
+      }
+      const reader = new FileReader()
+      reader.onload = function(e) {
+        let contents = e.target.result
+        app.update_solution(contents)
+      }
+      reader.readAsText(file)
+    }, false)
+  </script>
+  <script src="include/bootstrap.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
+</body>
+
+</html>

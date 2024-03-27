@@ -1,0 +1,8 @@
+{
+    "mapFile": "maps/self-6-6-1.map",
+    "agentFile": "agents/self_1.agents",
+    "teamSize": 1,
+    "taskFile": "tasks/self-6-6-1-1.tasks",
+    "numTasksReveal": 1,
+    "taskAssignmentStrategy": "greedy"
+}

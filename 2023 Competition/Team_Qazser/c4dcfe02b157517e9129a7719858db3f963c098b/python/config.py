@@ -1,0 +1,2 @@
+SPACE_TIME_AHEAD = 16
+MAX_PLAN_TIME = 40 #second

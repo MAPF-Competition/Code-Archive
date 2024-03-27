@@ -1,4 +1,4 @@
-# 2023 Main Round Code Archive
+# 2023 League of Robot Runners Code Archive
 
 This folder contains the code submissions for the 2023 Main Round and Test Round of the League of Robot Runners competition. 
 The folder is organised by team names, and each team has a separate folder that contains the submitted code organised with the commit hash of the submission.

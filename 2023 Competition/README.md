@@ -8,6 +8,9 @@ In this folder, you will find:
 - Summary tables with details of entries: such as team name, the achieved score, the total errands finished on each benchmark instance, and the link to the corresponding code.
   
 ## Teams and Entries:
+
+*<sup>Note: the Submission ID in the table is a unique identifier of a submission. It helps to distinguish submissions with the same implementation/code but output solutions with different scores/total errands finished.</sup>*
+
 ### Main Round
 <table>
 <tr>
@@ -18,16 +21,16 @@ In this folder, you will find:
 <th rowspan='2'>Entries</th>
 <th rowspan='2'>Submission ID</th></tr>
 <tr>
-<th>I-01</th>
-<th>I-02</th>
-<th>I-03</th>
-<th>I-04</th>
-<th>I-05</th>
-<th>I-06</th>
-<th>I-07</th>
-<th>I-08</th>
-<th>I-09</th>
-<th>I-10</th>
+<th>MR23-I-01</th>
+<th>MR23-I-02</th>
+<th>MR23-I-03</th>
+<th>MR23-I-04</th>
+<th>MR23-I-05</th>
+<th>MR23-I-06</th>
+<th>MR23-I-07</th>
+<th>MR23-I-08</th>
+<th>MR23-I-09</th>
+<th>MR23-I-10</th>
 </tr>
 <tr>
 <td rowspan=1><a href='Team_AI@UoM'>Team_AI@UoM</a></td>
@@ -372,7 +375,7 @@ In this folder, you will find:
 <td><a href='Team_Pikachu/2bf88d26affb60adfdb00aa3efa5f1e70e2f36a2'>commit 2bf88d26affb60adfdb00aa3efa5f1e70e2f36a2</a></td>
 <td>6569c6510f0c9f5516db3fd9</td>
 </tr>
-<td>Line Honors I-09</td>
+<td>Line Honors MR23-I-09</td>
 <td>9.631</td>
 <td>10349</td>
 <td>49148</td>
@@ -387,7 +390,7 @@ In this folder, you will find:
 <td><a href='Team_Pikachu/2bf88d26affb60adfdb00aa3efa5f1e70e2f36a2'>commit 2bf88d26affb60adfdb00aa3efa5f1e70e2f36a2</a></td>
 <td>656941260f0c9f5516da72a4</td>
 </tr>
-<td>Line Honors I-02</td>
+<td>Line Honors MR23-I-02</td>
 <td>9.755</td>
 <td>10344</td>
 <td>49186</td>
@@ -402,7 +405,7 @@ In this folder, you will find:
 <td><a href='Team_Pikachu/2bf88d26affb60adfdb00aa3efa5f1e70e2f36a2'>commit 2bf88d26affb60adfdb00aa3efa5f1e70e2f36a2</a></td>
 <td>6569c6510f0c9f5516db3fd9</td>
 </tr>
-<td>Line Honors I-05</td>
+<td>Line Honors MR23-I-05</td>
 <td>9.099</td>
 <td>10339</td>
 <td>49138</td>
@@ -417,7 +420,7 @@ In this folder, you will find:
 <td><a href='Team_Pikachu/5746db6f1af6f942c48b7a35fe882bbba3c08119'>commit 5746db6f1af6f942c48b7a35fe882bbba3c08119</a></td>
 <td>656817cd0f0c9f5516d89d07</td>
 </tr>
-<td>Line Honors I-07</td>
+<td>Line Honors MR23-I-07</td>
 <td>9.755</td>
 <td>10344</td>
 <td>49186</td>
@@ -498,7 +501,7 @@ In this folder, you will find:
 <td><a href='Team_Shadoks/413740f9d43350738aa99afa0db63039351c11c9'>commit 413740f9d43350738aa99afa0db63039351c11c9</a></td>
 <td>65690dab0f0c9f5516da216d</td>
 </tr>
-<td>Line Honors I-06</td>
+<td>Line Honors MR23-I-06</td>
 <td>8.511</td>
 <td>10383</td>
 <td>5726</td>
@@ -513,7 +516,7 @@ In this folder, you will find:
 <td><a href='Team_Shadoks/96b5b93f542d2d8078529ac1504f3e4a18583405'>commit 96b5b93f542d2d8078529ac1504f3e4a18583405</a></td>
 <td>65650a760f0c9f5516d3d704</td>
 </tr>
-<td>Line Honors I-08</td>
+<td>Line Honors MR23-I-08</td>
 <td>8.643</td>
 <td>10367</td>
 <td>13625</td>
@@ -528,7 +531,7 @@ In this folder, you will find:
 <td><a href='Team_Shadoks/1248faae2d47f7616224775a0dcafa008c55900a'>commit 1248faae2d47f7616224775a0dcafa008c55900a</a></td>
 <td>6560c90d0f0c9f5516ce44b9</td>
 </tr>
-<td>Line Honors I-01</td>
+<td>Line Honors MR23-I-01</td>
 <td>9.46</td>
 <td>10385</td>
 <td>49099</td>
@@ -543,7 +546,7 @@ In this folder, you will find:
 <td><a href='Team_Shadoks/7b688b1517fde2658da138588bb33b4bd31d5b00'>commit 7b688b1517fde2658da138588bb33b4bd31d5b00</a></td>
 <td>6562a2b40f0c9f5516d0953b</td>
 </tr>
-<td>Line Honors I-10</td>
+<td>Line Honors MR23-I-10</td>
 <td>8.538</td>
 <td>10368</td>
 <td>3978</td>
@@ -558,7 +561,7 @@ In this folder, you will find:
 <td><a href='Team_Shadoks/e131115400c370760c8f065406b09351467a6980'>commit e131115400c370760c8f065406b09351467a6980</a></td>
 <td>6565721e0f0c9f5516d45c5b</td>
 </tr>
-<td>Line Honors I-04</td>
+<td>Line Honors MR23-I-04</td>
 <td>9.502</td>
 <td>10377</td>
 <td>49090</td>
@@ -573,7 +576,7 @@ In this folder, you will find:
 <td><a href='Team_Shadoks/413740f9d43350738aa99afa0db63039351c11c9'>commit 413740f9d43350738aa99afa0db63039351c11c9</a></td>
 <td>65690dab0f0c9f5516da216d</td>
 </tr>
-<td>Line Honors I-03</td>
+<td>Line Honors MR23-I-03</td>
 <td>1.991</td>
 <td>0</td>
 <td>0</td>
@@ -685,11 +688,11 @@ In this folder, you will find:
 <th rowspan='2'>Entries</th>
 <th rowspan='2'>Submission ID</th></tr>
 <tr>
-<th>warehouse_large</th>
-<th>sortation_large</th>
-<th>random</th>
-<th>brc202d</th>
-<th>Paris</th>
+<th>TR23-warehouse_large</th>
+<th>TR23-sortation_large</th>
+<th>TR23-random</th>
+<th>TR23-brc202d</th>
+<th>TR23-Paris</th>
 </tr>
 <tr>
 <td rowspan=1><a href='Team_AIRLAB'>Team_AIRLAB</a></td>
@@ -725,7 +728,7 @@ In this folder, you will find:
 <td><a href='Team_NCD-MIPT/5ccf71508a4481438f22c43d8360113037675264'>commit 5ccf71508a4481438f22c43d8360113037675264</a></td>
 <td>64eefc0789b427e14a31a8f7</td>
 </tr>
-<td>Line Honors sortation_large</td>
+<td>Line Honors TR23-sortation_large</td>
 <td>4.357</td>
 <td>12999</td>
 <td>24577</td>
@@ -735,7 +738,7 @@ In this folder, you will find:
 <td><a href='Team_NCD-MIPT/5ccf71508a4481438f22c43d8360113037675264'>commit 5ccf71508a4481438f22c43d8360113037675264</a></td>
 <td>64eefc0789b427e14a31a8f7</td>
 </tr>
-<td>Line Honors brc202d</td>
+<td>Line Honors TR23-brc202d</td>
 <td>1.858</td>
 <td>2725</td>
 <td>48</td>
@@ -767,7 +770,7 @@ In this folder, you will find:
 <td><a href='Team_Pikachu/0a78c9bf0d3416e85ac5caf3f61c46bb19754a47'>commit 0a78c9bf0d3416e85ac5caf3f61c46bb19754a47</a></td>
 <td>64ea39d619c3fae19be865b2</td>
 </tr>
-<td>Line Honors warehouse_large</td>
+<td>Line Honors TR23-warehouse_large</td>
 <td>3.064</td>
 <td>19758</td>
 <td>121</td>
@@ -777,7 +780,7 @@ In this folder, you will find:
 <td><a href='Team_Pikachu/c9fa23c7069c005016b6a774591acca252499225'>commit c9fa23c7069c005016b6a774591acca252499225</a></td>
 <td>64dc55da19c3fae19be7a6cd</td>
 </tr>
-<td>Line Honors random</td>
+<td>Line Honors TR23-random</td>
 <td>3.064</td>
 <td>19758</td>
 <td>121</td>
@@ -787,7 +790,7 @@ In this folder, you will find:
 <td><a href='Team_Pikachu/c9fa23c7069c005016b6a774591acca252499225'>commit c9fa23c7069c005016b6a774591acca252499225</a></td>
 <td>64dc55da19c3fae19be7a6cd</td>
 </tr>
-<td>Line Honors Paris</td>
+<td>Line Honors TR23-Paris</td>
 <td>3.064</td>
 <td>19758</td>
 <td>121</td>

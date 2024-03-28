@@ -9,7 +9,7 @@ also allow established researchers in the area to make further progress, by buil
 
 The repository is organised by competition rounds. Each round contains directories named after teams, housing their code submissions for different challenge categories.
 
-We give the corresponding commit hash each entry appearing on the final leaderboard of any challenge category, and of each entry that contributed to a virtual best solution at the end of the competition. A table in the README file of each round directory provides a summary of all the teams and their submissions, with links to each commit, the achieved score of that entry, and the total errands finished on each evaluation instance.
+Each team contributes one or more submissions, with each submission distinguished by a commit hash. We archive all submissions appearing on the final leaderboard of any challenge category. This includes any submission that contributed a virtual best solution by the end of the competition. A README file in the directory of each main round provides a summary of all the teams and their submissions, with links to each commit, the achieved score of that entry, and the total errands finished on each evaluation instance.
 
 ## Contact
 

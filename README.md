@@ -1,15 +1,15 @@
 # The League of Robot Runners Code Archive
 
-Welcome to the code archive repository of The League of Robot Runners competition!
-At the end of each year's competition, we release the corresponding code submissions for each entry shown on the leaderboard. 
-This lowers the barrier for newcomers to the competition and to the field of Multi-Agent Path Finding (MAPF), allowing 
-researchers to compare with their algorithms and build new approaches based on the successful teams. 
+Welcome to the code archive for The League of Robot Runners competition!
+Each year we gather together all the best implementations from each team, as they appear on the final leaderboard of the main round. 
+These implementations serve to lower the barrier of entry, for newcomers to the competition and to the field of Multi-Agent Path Finding (MAPF). They 
+also allow established researchers in the area to make further progress, by building on successful ideas and by comparing their efforts against an established state-of-the-art. 
 
 ## What to find here
 
 The repository is organised by competition rounds. Each round contains directories named after teams, housing their code submissions for different challenge categories.
 
-You can find the codes from the corresponding commit of each entry on the leaderboard and of each entry that contributed to the virtual best solutions. The table in the readme file of each round directory provides a summary of all the teams and their submissions, including the links to each entry's commit, the total score of each entry, and the total errands finished by each entry on each evaluation instance.
+We give the corresponding commit hash each entry appearing on the final leaderboard of any challenge category, and of each entry that contributed to a virtual best solution at the end of the competition. A table in the README file of each round directory provides a summary of all the teams and their submissions, with links to each commit, the achieved score of that entry, and the total errands finished on each evaluation instance.
 
 ## Contact
 

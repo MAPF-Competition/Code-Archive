@@ -35,32 +35,3 @@
 <td>6568a99a0f0c9f5516d9aadf</td>
 </tr>
 </table>
-
-### Test Round:
-<table>
-<tr>
-<th rowspan='2'>Track</th>
-<th rowspan='2'>Score</th>
-<th colspan='5'>Total Errands Finished</th>
-<th rowspan='2'>Entries</th>
-<th rowspan='2'>Submission ID</th></tr>
-<tr>
-<th>warehouse_large</th>
-<th>sortation_large</th>
-<th>random</th>
-<th>brc202d</th>
-<th>Paris</th>
-</tr>
-<tr>
-<td>Overall Best</td>
-<td>0.0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td><a href='0c8f9a7409656ea724343f6e47b06fc7689ba4e4'>commit 0c8f9a7409656ea724343f6e47b06fc7689ba4e4</a></td>
-<td>64e55bfd19c3fae19be7fc59</td>
-</tr>
-</table>
-

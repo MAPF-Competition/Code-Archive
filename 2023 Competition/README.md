@@ -695,18 +695,6 @@ In this folder, you will find:
 <th>TR23-Paris</th>
 </tr>
 <tr>
-<td rowspan=1><a href='Team_AIRLAB'>Team_AIRLAB</a></td>
-<td>Overall Best</td>
-<td>0.0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td><a href='Team_AIRLAB/0c8f9a7409656ea724343f6e47b06fc7689ba4e4'>commit 0c8f9a7409656ea724343f6e47b06fc7689ba4e4</a></td>
-<td>64e55bfd19c3fae19be7fc59</td>
-</tr>
-<tr>
 <td rowspan=4><a href='Team_NCD-MIPT'>Team_NCD-MIPT</a></td>
 <td>Overall Best</td>
 <td>4.357</td>

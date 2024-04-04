@@ -4,8 +4,10 @@ This folder contains the code submissions for the 2023 Main Round and Test Round
 The folder is organised by team names, and each team has a separate folder that contains the submitted code organised with the commit hash of the submission.
 In this folder, you will find:
 - The codes for each entry that is on the leaderboard of the Main Round and Test Round.
-- The codes for each submission that creates the best-known solutions for each benchmark instance.
+- The codes for each submission that create the best-known solutions for each benchmark instance.
 - Summary tables with details of entries: such as team name, the achieved score, the total errands finished on each benchmark instance, and the link to the corresponding code.
+
+Note that, all the evaluation instances and best-known solutions from the 2023 Main Round and 2023 Test Round competitions are available in our [Benchmark Archive Repo](https://github.com/MAPF-Competition/Benchmark-Archive/tree/main/2023%20Competition)
   
 ## Teams and Entries:
 

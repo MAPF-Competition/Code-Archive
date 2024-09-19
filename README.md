@@ -5,6 +5,8 @@ Each year we gather together all the best implementations from each team, as the
 These implementations serve to lower the barrier of entry, for newcomers to the competition and to the field of Multi-Agent Path Finding (MAPF). They 
 also allow established researchers in the area to make further progress, by building on successful ideas and by comparing their efforts against an established state-of-the-art. 
 
+Note that **problem instances** and best known **solutions**, produced by the implementations hosted here, can be found in our [Benchmark Archive](https://github.com/MAPF-Competition/Benchmark-Archive) repository
+
 ## What to find here
 
 The repository is organised by competition year. In the directory for a given year are found directories named after teams, housing their code submissions for different challenge categories.

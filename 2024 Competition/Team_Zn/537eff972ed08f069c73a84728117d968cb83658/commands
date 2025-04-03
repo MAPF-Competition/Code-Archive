@@ -1,0 +1,7 @@
+cd ..; ./compile.sh; cd build;
+
+./lifelong --inputFile ../example_problems/game.domain/brc202d_500.json --output=game_free_tasks_pipttime1_distinct_socwithGoalCosts_minimummanhattantask.json --simulationTime 250
+
+./lifelong --inputFile ../example_problems/warehouse.domain/warehouse_large_5000.json --output ware_revealed+500_tasks_pipttime1_250t.json --simulationTime 250
+
+./lifelong --inputFile ../example_problems/random.domain/random_32_32_20_100.json --simulationTime 400 --output random_2distinct_pibt1_socwithGoalCost_minmanhattan.json

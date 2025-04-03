@@ -1,0 +1,11 @@
+prefix=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210
+exec_prefix=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210
+libdir=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210/lib
+includedir=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210/include
+
+Name: UTF8 Range
+Description: Google's UTF8 Library
+Version: 1.0
+Requires: absl_strings
+Libs: -L${libdir} -lutf8_validity -lutf8_range 
+Cflags: -I${includedir}

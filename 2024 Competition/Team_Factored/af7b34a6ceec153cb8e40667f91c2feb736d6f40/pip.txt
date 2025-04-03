@@ -1,0 +1,7 @@
+torch
+pybind11-global>=2.10.1
+numpy
+numba
+./python/env
+scipy
+multiprocess

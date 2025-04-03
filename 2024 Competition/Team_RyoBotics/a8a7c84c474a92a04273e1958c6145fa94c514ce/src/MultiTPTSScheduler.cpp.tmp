@@ -1,0 +1,276 @@
+#include "MultiTPTSScheduler.h"
+#include <algorithm>
+using namespace DefaultPlanner;
+namespace MultiTPTSPlanner
+{
+
+    void ThreadSafeScheduler::schedule_plan_MultiTPTS(
+        int time_limit,
+        std::vector<int> &proposed_schedule,
+        SharedEnvironment *env)
+    {
+
+        auto endtime = std::chrono::steady_clock::now() +
+                       std::chrono::milliseconds(time_limit);
+        clearProcessingAgents();
+
+        // エージェントのインデックスを準備
+        // データの更新処理を関数呼び出しに置き換え
+        updateRunningTasks(env);
+        updateTaskAssignments(env);
+        std::vector<int> agent_indices = updateAgents(env);
+        if (agent_indices.empty() or global_available_tasks.empty())
+        {
+            return;
+        }
+
+        // エージェントをシャッフル
+        // std::random_device rd;
+        // std::mt19937 g(rd());
+        // std::shuffle(agent_indices.begin(), agent_indices.end(), g);
+
+        // スレッド数を決定（利用可能なコア数と、エージェント数の1/4の小さい方）
+        const int num_threads = std::min(
+            static_cast<int>(std::thread::hardware_concurrency()),
+            static_cast<int>(agent_indices.size() / 4 + 1));
+
+        // エージェントをバッチに分割
+        std::vector<std::vector<int>> agent_batches(num_threads);
+        for (size_t i = 0; i < agent_indices.size(); i++)
+        {
+            agent_batches[i % num_threads].push_back(agent_indices[i]);
+        }
+
+        std::unordered_set<int> processed_agents;
+
+        // スレッドを起動
+        std::vector<std::thread> threads;
+        for (int i = 0; i < num_threads; i++)
+        {
+            threads.emplace_back(&ThreadSafeScheduler::worker_thread,
+                                 this,
+                                 std::ref(agent_batches[i]),
+                                 std::ref(proposed_schedule),
+                                 env,
+                                 std::ref(processed_agents),
+                                 endtime);
+        }
+
+        // すべてのスレッドの終了を待つ
+        for (auto &thread : threads)
+        {
+            thread.join();
+        }
+    }
+
+    void ThreadSafeScheduler::worker_thread(
+        std::vector<int> &agent_batch,
+        std::vector<int> &proposed_schedule,
+        SharedEnvironment *env,
+        std::unordered_set<int> &processed_agents,
+        std::chrono::steady_clock::time_point endtime)
+    {
+
+        for (int agent_id : agent_batch)
+        {
+            if (std::chrono::steady_clock::now() >= endtime)
+                break;
+
+            // チェックと処理開始を1つの操作で行う
+            if (!tryMarkAgentAsProcessing(agent_id))
+                continue;
+
+            // {
+            //     std::lock_guard<std::mutex> lock(mtx);
+            //     if (DefaultPlanner::global_available_tasks.empty())
+            //     {
+            //         markAgentAsFinished(agent_id);
+            //         break;
+            //     }
+            // }
+
+            tryGetTask(agent_id, proposed_schedule, env, processed_agents, endtime);
+            markAgentAsFinished(agent_id);
+        }
+    }
+
+    bool ThreadSafeScheduler::tryGetTask(
+        int agent_id,
+        std::vector<int> &schedule,
+        SharedEnvironment *env,
+        std::unordered_set<int> &processed_agents,
+        std::chrono::steady_clock::time_point endtime)
+    {
+        return GetTaskThreadSafe(agent_id, schedule, env, processed_agents, endtime);
+    }
+
+    bool ThreadSafeScheduler::GetTaskThreadSafe(
+        int agent_id,
+        std::vector<int> &schedule,
+        SharedEnvironment *env,
+        std::unordered_set<int> &processed_agents,
+        std::chrono::steady_clock::time_point endtime)
+    {
+        if (std::chrono::steady_clock::now() >= endtime)
+        {
+            return false;
+        }
+
+        // エージェントが既に処理済みの場合は終了
+        {
+            std::unique_lock<std::shared_mutex> lock(shared_mtx);
+            if (processed_agents.find(agent_id) != processed_agents.end())
+            {
+                return false;
+            }
+            processed_agents.insert(agent_id);
+        }
+
+        // 現在のエージェントの元の割り当てを保存
+        int current_agent_original_task = -1;
+        {
+            std::shared_lock<std::shared_mutex> read_lock(shared_mtx);
+            current_agent_original_task = schedule[agent_id];
+        }
+        std::vector<std::tuple<int, bool, int>> tasks;
+        std::vector<std::tuple<int, bool, int>> backup_tasks;
+
+        const int DISTANCE_THRESHOLD = 100;
+
+        for (int task_id : global_available_tasks)
+        {
+            int distance = evaluateDistance(agent_id, task_id, env);
+            if (distance < std::numeric_limits<unsigned short>::max())
+            {
+                bool is_assigned;
+                {
+                    std::shared_lock<std::shared_mutex> read_lock(shared_mtx); // 読み取り用ロック
+                    is_assigned = current_task_assignments.find(task_id) != current_task_assignments.end();
+                }
+                if (distance <= DISTANCE_THRESHOLD)
+                {
+                    tasks.push_back({distance, is_assigned, task_id});
+                }
+                else if (tasks.empty())
+                {
+                    backup_tasks.push_back({distance, is_assigned, task_id});
+                }
+            }
+        }
+
+        // メインのタスクリストが空の場合、バックアップを使用
+        if (tasks.empty())
+        {
+            tasks = std::move(backup_tasks);
+        }
+
+        // 距離でソート
+        std::sort(tasks.begin(), tasks.end());
+
+        for (const auto &[distance, is_assigned, task_id] : tasks)
+        {
+            if (std::chrono::steady_clock::now() >= endtime)
+            {
+                break;
+            }
+
+            // まず読み取り専用ロックで確認
+            int assigned_agent_id = -1;
+            bool is_task_assigned = false;
+            {
+                std::unique_lock<std::shared_mutex> lock(shared_mtx); // 排他的ロックを取得
+                auto assigned_it = current_task_assignments.find(task_id);
+                if (assigned_it != current_task_assignments.end())
+                {
+                    assigned_agent_id = assigned_it->second;
+                    is_task_assigned = true;
+                }
+                else
+                {
+                    // 未割り当ての場合はここで直接更新
+                    // 同じロック内で確認と更新を行うことで競合を防ぐ
+                    schedule[agent_id] = task_id;
+                    current_task_assignments[task_id] = agent_id;
+                    return true;
+                }
+            } // ロック解放
+            if (tryReassignTask(agent_id, distance, task_id, assigned_agent_id, schedule, env, processed_agents, endtime))
+            {
+                return true;
+            }
+        }
+
+        // 割り当てに失敗した場合の処理
+        if (current_agent_original_task != -1)
+        {
+            if (env->curr_task_schedule[agent_id] == -1)
+            {
+                std::unique_lock<std::shared_mutex> lock(shared_mtx);
+                schedule[agent_id] = -1;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool ThreadSafeScheduler::tryReassignTask(
+        int agent_id,
+        int requested_agent_distance,
+        int task_id,
+        int assigned_agent_id,
+        std::vector<int> &schedule,
+        SharedEnvironment *env,
+        std::unordered_set<int> &processed_agents,
+        std::chrono::steady_clock::time_point endtime)
+    {
+        // 以降は割り当て済みの場合の処理
+        if (!tryMarkAgentAsProcessing(assigned_agent_id))
+        {
+            return false;
+        }
+
+        int assigned_agent_distance = evaluateDistance(assigned_agent_id, task_id, env);
+
+        if (requested_agent_distance >= assigned_agent_distance)
+        {
+            markAgentAsFinished(assigned_agent_id);
+            return false;
+        }
+
+        int assigned_agent_original_task = -1;
+        {
+            std::unique_lock<std::shared_mutex> lock(shared_mtx);
+
+            assigned_agent_original_task = schedule[assigned_agent_id];
+            // 新しい割り当てを更新
+            schedule[agent_id] = task_id;
+            schedule[assigned_agent_id] = -1;
+            current_task_assignments[task_id] = agent_id;
+        }
+
+        // 再帰的に割り当てを試みる
+        if (GetTaskThreadSafe(assigned_agent_id, schedule, env, processed_agents, endtime))
+        {
+            markAgentAsFinished(assigned_agent_id);
+            return true;
+        }
+
+        // 割り当てに失敗した場合は元に戻す
+        {
+            std::unique_lock<std::shared_mutex> lock(shared_mtx);
+            schedule[agent_id] = assigned_agent_original_task;
+            if (assigned_agent_original_task != -1)
+            {
+                current_task_assignments[assigned_agent_original_task] = agent_id;
+            }
+            schedule[assigned_agent_id] = assigned_agent_original_task;
+            if (assigned_agent_original_task != -1)
+            {
+                current_task_assignments[assigned_agent_original_task] = assigned_agent_id;
+            }
+        }
+        markAgentAsFinished(assigned_agent_id);
+        return false;
+    }
+}

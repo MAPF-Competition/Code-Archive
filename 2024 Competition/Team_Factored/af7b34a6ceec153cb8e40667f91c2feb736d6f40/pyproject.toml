@@ -1,0 +1,25 @@
+[project]
+name = "lorr24-aristizabal95"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "gymnasium[other]>=1.0.0",
+    "invoke>=2.2.0",
+    "lorr-mapf",
+    "matplotlib>=3.10.0",
+    "multiprocess>=0.70.17",
+    "numba==0.61.0",
+    "numpy>=2.1.0",
+    "pandas>=2.2.3",
+    "pybind11>=2.13.6",
+    "scipy>=1.15.1",
+    "tensorboard>=2.19.0",
+    "torch>=2.6.0",
+    "tyro>=0.9.14",
+    "wandb>=0.19.6",
+]
+
+[tool.uv.sources]
+lorr-mapf = { path = "python/env" }

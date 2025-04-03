@@ -1,0 +1,12 @@
+prefix=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210
+exec_prefix=${prefix}
+libdir=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210/lib
+includedir=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210/include
+
+Name: absl_random_internal_randen_engine
+Description: Abseil random_internal_randen_engine library
+URL: https://abseil.io/
+Version: 20240722
+Requires: absl_endian = 20240722, absl_random_internal_iostream_state_saver = 20240722, absl_random_internal_randen = 20240722, absl_raw_logging_internal = 20240722, absl_type_traits = 20240722
+Libs: -L${libdir}  
+Cflags: -I${includedir} -Wnon-virtual-dtor -DNOMINMAX

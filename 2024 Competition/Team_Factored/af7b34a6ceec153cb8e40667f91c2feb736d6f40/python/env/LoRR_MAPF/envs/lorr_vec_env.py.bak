@@ -1,0 +1,245 @@
+import torch
+from enum import Enum
+import gymnasium as gym
+from gymnasium import spaces
+import pygame
+import numpy as np
+from pathlib import Path
+
+WALLS = ['T', '@']
+STARTING_POS = ['S']
+END_POS = ['E']
+DIRECTIONS = torch.tensor([[0, -1], [-1, 0], [0, 1], [1, 0]], dtype=torch.int32)
+
+class Actions(Enum):
+    forward = 0
+    crotate = 1
+    ccrotate = 2
+    wait = 3
+
+class VecLoRR(VecEnv):
+    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 16}
+
+    def __init__(self, domain_path: str, num_agents: int, n_envs: int, map_name: str = None, 
+                 render_mode=None, block_all_actions=True, device="cuda"):
+        """
+        Arguments:
+            domain_path (str): Path to the <domain_name>.domain folder
+            num_agents (int): Number of agents per environment
+            n_envs (int): Number of parallel environments
+            map_name (str): Some domains have multiple maps. If None, will use first map found
+            render_mode (str): Rendering mode
+            block_all_actions (bool): Whether to block all actions when collision occurs
+            device (str): Device to run computations on ("cuda" or "cpu")
+        """
+        self.device = torch.device(device if torch.cuda.is_available() else "cpu")
+        map_fields = self._get_map_fields(domain_path, map_name)
+        self.domain_path = Path(domain_path)
+        self.map_name, self.map_path = map_fields
+        self.num_agents = num_agents
+        self.n_envs = n_envs
+        self.block_all_actions = block_all_actions
+
+        self._load_map_data()
+
+        # Define observation space (still in numpy for gym compatibility)
+        pos_min = np.array([[0, 0],]*self.num_agents)
+        pos_max = np.array([[self.h, self.w],] * self.num_agents)
+        dir_min = np.array([0,] * self.num_agents)
+        dir_max = np.array([4,] * self.num_agents)
+        
+        self.observation_space = spaces.Dict({
+            "agent": spaces.Dict({
+                "pos": spaces.Box(pos_min, pos_max, shape=(self.num_agents, 2), dtype=np.int32),
+                "dir": spaces.Box(dir_min, dir_max, shape=(self.num_agents,), dtype=np.int32)
+            }),
+            "target": spaces.Box(pos_min, pos_max, shape=(self.num_agents, 2), dtype=np.int32),
+        })
+
+        self.action_space = spaces.MultiDiscrete([4] * self.num_agents)
+
+        # Initialize state tensors on GPU
+        self.agents_pos = torch.zeros((n_envs, num_agents, 2), dtype=torch.int32, device=self.device)
+        self.agents_dir = torch.zeros((n_envs, num_agents), dtype=torch.int32, device=self.device)
+        self.tasks = torch.ones((n_envs, num_agents, 2), dtype=torch.int32, device=self.device) * -1
+        self.tasks_completed = torch.zeros(n_envs, dtype=torch.int32, device=self.device)
+
+        # Move constant tensors to GPU
+        self._map = torch.from_numpy(self._map).to(self.device)
+        self._start_positions = torch.from_numpy(self._start_positions).to(self.device)
+        self._end_positions = torch.from_numpy(self._end_positions).to(self.device)
+        self.directions = DIRECTIONS.to(self.device)
+
+        # Initialize rendering
+        self.render_mode = render_mode
+        self.window = None
+        self.clock = None
+        self.zoom_factor = 1.0
+        self.offset = np.array([0, 0])
+        self.dragging = False
+        self.last_mouse_pos = None
+
+        super().__init__(n_envs, self.observation_space, self.action_space)
+
+    def _init_agents(self):
+        """Initialize agent positions and directions on GPU"""
+        valid_positions = torch.nonzero(self._start_positions).float()
+        num_valid = valid_positions.size(0)
+        
+        # Sample random indices for each environment
+        indices = torch.randint(0, num_valid, (self.n_envs, self.num_agents), device=self.device)
+        
+        # Get positions from indices
+        positions = valid_positions[indices].to(torch.int32)
+        
+        # Random directions
+        directions = torch.randint(0, 4, (self.n_envs, self.num_agents), device=self.device)
+        
+        return positions, directions
+
+    def _assign_tasks(self):
+        """Assign tasks to agents without tasks on GPU"""
+        valid_positions = torch.nonzero(self._end_positions)
+        num_valid = valid_positions.size(0)
+        
+        if num_valid == 0:
+            return self.tasks
+
+        # Find unassigned agents
+        unassigned = (self.tasks[..., 0] == -1) & (self.tasks[..., 1] == -1)
+        
+        # For each environment, assign random valid positions to unassigned agents
+        for env_idx in range(self.n_envs):
+            num_unassigned = unassigned[env_idx].sum()
+            if num_unassigned == 0:
+                continue
+                
+            selected_indices = torch.randperm(num_valid, device=self.device)[:num_unassigned]
+            selected_positions = valid_positions[selected_indices]
+            
+            unassigned_agents = torch.where(unassigned[env_idx])[0]
+            self.tasks[env_idx, unassigned_agents] = selected_positions
+
+        return self.tasks
+
+    def reset(self):
+        """Reset all environments"""
+        self.agents_pos, self.agents_dir = self._init_agents()
+        self.tasks.fill_(-1)
+        self.tasks = self._assign_tasks()
+        self.tasks_completed.zero_()
+
+        return self._get_obs_numpy()
+
+    def step_async(self, actions):
+        """Store actions for later execution"""
+        self._actions = torch.tensor(actions, device=self.device)
+
+    def step_wait(self):
+        """Execute stored actions in all environments"""
+        # Apply movements
+        self.agents_pos, blocked = self._apply_movement(self._actions)
+        
+        # Apply rotations where not blocked
+        if not self.block_all_actions or not blocked:
+            self.agents_dir = self._apply_rotation(self._actions)
+
+        # Check for completed tasks
+        tasks_completed = torch.zeros(self.n_envs, device=self.device)
+        
+        # Vectorized task completion check
+        completed_mask = torch.all(self.agents_pos == self.tasks, dim=-1)
+        tasks_completed = completed_mask.sum(dim=-1)
+        
+        # Update tasks
+        self.tasks[completed_mask] = -1
+        self.tasks_completed += tasks_completed
+        self._assign_tasks()
+
+        # Prepare info dictionaries
+        infos = [
+            {
+                "tasks_completed_this_step": tc.item(),
+                "total_tasks_completed": tot.item()
+            }
+            for tc, tot in zip(tasks_completed, self.tasks_completed)
+        ]
+
+        # Zero rewards for now (can be modified based on your reward function)
+        rewards = torch.zeros(self.n_envs, device=self.device)
+        dones = torch.zeros(self.n_envs, dtype=torch.bool, device=self.device)
+
+        if self.render_mode == "human":
+            self.render()
+
+        return self._get_obs_numpy(), rewards.cpu().numpy(), dones.cpu().numpy(), infos
+
+    def _apply_movement(self, actions):
+        """Apply movement actions on GPU"""
+        # Create movement mask
+        move_mask = (actions == Actions.forward.value).unsqueeze(-1).expand(-1, -1, 2)
+        
+        # Get direction vectors for each agent
+        movement = self.directions[self.agents_dir]
+        
+        # Apply movement
+        new_pos = self.agents_pos + (movement * move_mask)
+        
+        # Clip to bounds
+        new_pos = torch.clamp(new_pos, 0, torch.tensor([self.h-1, self.w-1], device=self.device))
+        
+        # Check wall collisions
+        wall_collisions = self._map[new_pos[..., 0], new_pos[..., 1]]
+        
+        # Check agent collisions
+        agent_collisions = torch.zeros_like(wall_collisions)
+        for env_idx in range(self.n_envs):
+            positions = new_pos[env_idx]
+            unique_pos, counts = torch.unique(positions, dim=0, return_counts=True)
+            duplicates = unique_pos[counts > 1]
+            if duplicates.size(0) > 0:
+                mask = (positions.unsqueeze(1) == duplicates.unsqueeze(0)).all(dim=-1).any(dim=-1)
+                agent_collisions[env_idx] = mask
+
+        # Check swapping
+        swapping = torch.zeros_like(wall_collisions)
+        for i in range(self.num_agents):
+            for j in range(i + 1, self.num_agents):
+                swap = (new_pos[:, i] == self.agents_pos[:, j]).all(dim=-1) & \
+                      (new_pos[:, j] == self.agents_pos[:, i]).all(dim=-1)
+                swapping[:, i] |= swap
+                swapping[:, j] |= swap
+
+        # Combine all collisions
+        collisions = wall_collisions | agent_collisions | swapping
+        
+        # Update positions
+        new_pos = torch.where(collisions.unsqueeze(-1), self.agents_pos, new_pos)
+        
+        return new_pos, collisions.any()
+
+    def _apply_rotation(self, actions):
+        """Apply rotation actions on GPU"""
+        new_dir = self.agents_dir.clone()
+        
+        # Clockwise rotation
+        cr_mask = actions == Actions.crotate.value
+        new_dir[cr_mask] = (new_dir[cr_mask] + 1) % 4
+        
+        # Counter-clockwise rotation
+        ccr_mask = actions == Actions.ccrotate.value
+        new_dir[ccr_mask] = (new_dir[ccr_mask] - 1) % 4
+        
+        return new_dir
+
+    def _get_obs_numpy(self):
+        """Convert GPU tensors to numpy arrays for gym compatibility"""
+        return {
+            "agents": {
+                "pos": self.agents_pos.cpu().numpy(),
+                "dir": self.agents_dir.cpu().numpy()
+            },
+            "target": self.tasks.cpu().numpy()
+        }
+
+    # ... rest of the methods (render, close, etc.) remain the same ...

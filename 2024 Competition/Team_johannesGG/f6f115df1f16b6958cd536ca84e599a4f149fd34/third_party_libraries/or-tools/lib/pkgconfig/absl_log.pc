@@ -1,0 +1,12 @@
+prefix=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210
+exec_prefix=${prefix}
+libdir=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210/lib
+includedir=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210/include
+
+Name: absl_log
+Description: Abseil log library
+URL: https://abseil.io/
+Version: 20240722
+Requires: absl_log_internal_log_impl = 20240722, absl_vlog_is_on = 20240722
+Libs: -L${libdir}  
+Cflags: -I${includedir} -Wnon-virtual-dtor -DNOMINMAX

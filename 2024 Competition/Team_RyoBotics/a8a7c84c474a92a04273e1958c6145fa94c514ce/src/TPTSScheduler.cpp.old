@@ -1,0 +1,511 @@
+#include "scheduler.h"
+#include "TPTSScheduler.h"
+#include <fstream>
+#include <algorithm>
+#include <chrono>
+#include <queue>
+#include "PathFinder.h"
+
+namespace DefaultPlanner
+{
+    static FastDistanceTable distance_table;
+    static std::mt19937 mt3;
+    std::unordered_set<int> global_available_tasks;
+    std::unordered_set<int> global_ongoing_agents;
+    std::unordered_set<int> global_free_agents;
+    std::unordered_map<int, int> current_task_assignments;
+
+    void schedule_initialize_TPTS(int preprocess_time_limit, SharedEnvironment *env)
+    {
+        // 距離テーブルの初期化
+        std::cout << "距離テーブルの初期化" << std::endl;
+        std::string filepath = env->file_storage_path + "/" + env->map_name + "_distance_table.bin";
+        std::ifstream check_file(filepath);
+        if (!check_file.good())
+        {
+            DistanceTable::computeAndSave(env, filepath);
+        }
+        check_file.close();
+        std::cout << "距離テーブルの読み込み" << std::endl;
+        distance_table = DistanceTable::load(filepath);
+        std::cout << "距離テーブルの読み込み完了" << std::endl;
+        mt3.seed(0);
+
+        global_free_agents.clear();
+        global_ongoing_agents.clear();
+        global_available_tasks.clear();
+        current_task_assignments.clear();
+    }
+
+    int evaluateDistance(int agent_id, int task_id, SharedEnvironment *env)
+    {
+        // タスクIDが無効な場合はエラー
+        if (task_id == -1)
+        {
+            throw std::runtime_error("Invalid task ID: -1");
+        }
+
+        auto task_it = env->task_pool.find(task_id);
+        if (task_it == env->task_pool.end())
+        {
+            throw std::runtime_error("Task " + std::to_string(task_id) + " not found in task pool");
+        }
+
+        const Task &task = task_it->second;
+        if (task.locations.empty())
+        {
+            throw std::runtime_error("Task " + std::to_string(task_id) + " has no locations");
+        }
+        int agent_location = env->curr_states[agent_id].location;
+        int task_location = task.locations[0];
+        int agent_orientation = env->curr_states[agent_id].orientation;
+
+        // 基本の距離を計算
+        int base_distance = distance_table.getDistance(
+            agent_location,
+            task_location);
+
+        // int path_distance = PathFinder::findPath(agent_location, task_location, env->map, env->rows, env->cols).size() - 1;
+
+        // if (base_distance != path_distance)
+        // {
+        //     std::cout << "エラー: 基本距離とパス距離が一致しません" << std::endl;
+        //     std::cout << "agent_location: " << agent_location << std::endl;
+        //     std::cout << "task_location: " << task_location << std::endl;
+        //     std::cout << "base_distance: " << base_distance << std::endl;
+        //     std::cout << "path_distance: " << path_distance << std::endl;
+        //     // throw std::runtime_error("距離計算エラー");
+        // }
+
+        // 方向による追加コストを計算
+        int direction_cost = calculateDirectionCost(
+            agent_location,
+            task_location,
+            agent_orientation,
+            env->cols); // マップの幅を渡して座標計算に使用
+
+        return base_distance + direction_cost;
+    }
+
+    // 方向コストを計算する新しい関数
+    int calculateDirectionCost(int from_loc, int to_loc, int current_orientation, int map_width)
+    {
+        // グリッド上の座標に変換
+        int from_x = from_loc % map_width;
+        int from_y = from_loc / map_width;
+        int to_x = to_loc % map_width;
+        int to_y = to_loc / map_width;
+
+        // 目標への方向を計算
+        int target_orientation;
+        if (std::abs(to_x - from_x) > std::abs(to_y - from_y))
+        {
+            // X方向の差の方が大きい場合
+            target_orientation = (to_x > from_x) ? 0 : 2; // 東または西
+        }
+        else
+        {
+            // Y方向の差の方が大きい場合
+            target_orientation = (to_y > from_y) ? 1 : 3; // 南または北
+        }
+
+        // 向きの差を計算（最小回転数）
+        int orientation_diff = std::abs(current_orientation - target_orientation);
+        if (orientation_diff > 2)
+        {
+            orientation_diff = 4 - orientation_diff;
+        }
+
+        // 各90度回転につき1のコストを追加
+        return orientation_diff;
+    }
+
+    bool GetTask(int agent_id, std::vector<int> &schedule, SharedEnvironment *env,
+                 std::unordered_set<int> &available_tasks, std::unordered_set<int> &processed_agents, std::chrono::steady_clock::time_point endtime)
+    {
+        auto starttime = std::chrono::steady_clock::now();
+        if (std::chrono::steady_clock::now() >= endtime)
+        {
+            return false;
+        }
+        // std::cout << "\n=== GetTask開始: エージェント " << agent_id << " ===" << std::endl;
+        // std::cout << "  現在の割り当て状態:" << std::endl;
+        // std::cout << "    - スケジュール上の割り当て: " << schedule[agent_id] << std::endl;
+        // std::cout << "    - 環境上の割り当て: " << env->curr_task_schedule[agent_id] << std::endl;
+
+        // エージェントが既に処理済みの場合は終了
+        if (processed_agents.find(agent_id) != processed_agents.end())
+        {
+            // std::cout << "  エージェント " << agent_id << " は既に処理済み" << std::endl;
+            return false;
+        }
+        processed_agents.insert(agent_id);
+        // std::cout << "  処理済みエージェントに追加: " << agent_id << std::endl;
+
+        // 現在のエージェントの元の割り当てを保存
+        int current_agent_original_task = schedule[agent_id];
+        // std::cout << "  元の割り当てを保存: " << current_agent_original_task << std::endl;
+
+        // 利用可能なタスクの集合のコピーを作成
+        std::unordered_set<int> &T_prime = available_tasks;
+        // std::cout << "  利用可能なタスク数: " << T_prime.size() << std::endl;
+
+        // タスクと距離のペアを配列に格納
+        std::vector<std::tuple<int, bool, int>> tasks;        // <distance, is_assigned, task_id>
+        std::vector<std::tuple<int, bool, int>> backup_tasks; // バックアップ用のタスクリスト
+        tasks.reserve(T_prime.size());
+        backup_tasks.reserve(T_prime.size());
+
+        const int DISTANCE_THRESHOLD = 100; // 距離の閾値
+
+        for (int task_id : T_prime)
+        {
+            int distance = evaluateDistance(agent_id, task_id, env);
+            if (distance < std::numeric_limits<unsigned short>::max())
+            {
+                bool is_assigned = current_task_assignments.find(task_id) != current_task_assignments.end();
+
+                // 距離に基づいて仕分け
+                if (distance <= DISTANCE_THRESHOLD)
+                {
+                    tasks.push_back({distance, is_assigned, task_id});
+                }
+                else if (tasks.empty())
+                {
+                    backup_tasks.push_back({distance, is_assigned, task_id});
+                }
+            }
+        }
+
+        // 距離が同じ場合は未割り当てのタスクを優先するようにソート
+        auto sort_tasks = [](auto &task_list)
+        {
+            std::sort(task_list.begin(), task_list.end(),
+                      [](const auto &a, const auto &b) noexcept
+                      {
+                          // 距離を直接比較（タプルの0番目の要素）
+                          if (std::get<0>(a) != std::get<0>(b))
+                              return std::get<0>(a) < std::get<0>(b);
+                          // 割り当て状態を直接比較（タプルの1番目の要素）
+                          return std::get<1>(a) < std::get<1>(b); // falseが先（未割り当てを優先）
+                      });
+        };
+
+        // メインのタスクリストが空の場合、バックアップを使用
+        if (tasks.empty())
+        {
+            tasks = std::move(backup_tasks);
+        }
+        sort_tasks(tasks);
+
+        // インデックスを使って順番にアクセス - O(1)
+        for (const auto &[distance, is_assigned, task_id] : tasks)
+        {
+            if (std::chrono::steady_clock::now() >= endtime)
+            {
+                break;
+            }
+            auto assigned_it = current_task_assignments.find(task_id);
+            // auto assigned_it2 = env->task_pool.find(task_id);
+            // const Task &task = assigned_it2->second;
+            // int next_loc = task.idx_next_loc;
+            if (assigned_it == current_task_assignments.end())
+            {
+                // std::cout << "  タスク " << task_id << " は未割り当て。割り当てを実行" << std::endl;
+                schedule[agent_id] = task_id;
+                current_task_assignments[task_id] = agent_id;
+                // available_tasks.erase(task_id);
+                // std::cout << "  エージェント " << agent_id << " にタスク " << task_id << " を割り当て完了" << std::endl;
+                return true;
+            }
+            else
+            {
+                // タスクが他のエージェントに割り当て済みの場合
+                int assigned_agent_id = assigned_it->second;
+                int assigned_agent_distance = evaluateDistance(assigned_agent_id, task_id, env);
+                // std::cout << "  タスク " << task_id << " の現在の割り当て状態:" << std::endl;
+                // std::cout << "    - 担当エージェント: " << assigned_agent_id << std::endl;
+                // std::cout << "    - 現在の距離: " << assigned_agent_distance << std::endl;
+                // std::cout << "    - 新しい距離: " << distance << std::endl;
+
+                if (distance < assigned_agent_distance)
+                {
+                    // std::cout << "  より良い割り当てが可能なため再割り当てを試行" << std::endl;
+                    int assigned_agent_original_task = schedule[assigned_agent_id];
+                    if (assigned_agent_id != current_task_assignments[assigned_agent_original_task])
+                    {
+                        std::cerr << "エラー: 割り当てられたエージェントID (" << assigned_agent_id
+                                  << ") と current_task_assignments[" << assigned_agent_original_task
+                                  << "] (" << current_task_assignments[assigned_agent_original_task]
+                                  << ") が一致しません。" << std::endl;
+                        throw std::runtime_error("エージェントIDの不一致");
+                    }
+                    if (assigned_agent_id != current_task_assignments[task_id])
+                    {
+                        std::cerr << "エラー: 割り当てられたエージェントID (" << assigned_agent_id
+                                  << ") と current_task_assignments[" << assigned_agent_original_task
+                                  << "] (" << current_task_assignments[task_id]
+                                  << ") が一致しません。" << std::endl;
+                        throw std::runtime_error("エージェントIDの不一致");
+                    }
+                    // std::cout << "    - 元のエージェント " << assigned_agent_id << " の元のタスク: " << assigned_agent_original_task << std::endl;
+
+                    // 新しい割り当てを更新
+                    schedule[agent_id] = task_id;
+                    schedule[assigned_agent_id] = -1;
+                    current_task_assignments[task_id] = agent_id;
+                    // available_tasks.erase(task_id);
+                    // std::cout << "    - 新しい割り当てを仮適用" << std::endl;
+
+                    if (GetTask(assigned_agent_id, schedule, env, available_tasks, processed_agents, endtime))
+                    {
+                        // std::cout << "  再割り当て成功" << std::endl;
+                        return true;
+                    }
+
+                    // std::cout << "  再割り当て失敗。元の状態に戻します" << std::endl;
+                    // available_tasks.insert(task_id);
+                    schedule[agent_id] = current_agent_original_task;
+                    if (current_agent_original_task != -1)
+                    {
+                        // if (current_task_assignments
+                        //         [current_agent_original_task] == agent_id)
+                        // {
+                        //     current_task_assignments[current_agent_original_task] = agent_id;
+                        // }
+                        current_task_assignments[current_agent_original_task] = agent_id;
+                    }
+                    // else
+                    // {
+                    //     std::cerr << "エラー: current_agent_original_taskが-1です。" << std::endl;
+                    //     throw std::runtime_error("current_agent_original_taskのエラー");
+                    // }
+                    schedule[assigned_agent_id] = assigned_agent_original_task;
+                    if (assigned_agent_original_task != -1)
+                    {
+
+                        current_task_assignments[assigned_agent_original_task] = assigned_agent_id;
+                    }
+                    else
+                    {
+                        std::cerr << "エラー: assigned_agent_original_taskが-1です。" << std::endl;
+                        throw std::runtime_error("assigned_agent_original_taskのエラー");
+                    }
+                    // std::cout << "  元の状態への復元完了" << std::endl;
+                }
+            }
+        }
+
+        // std::cout << "\n  === 利用可能なタスクをすべて試行済み ===" << std::endl;
+        if (current_agent_original_task != -1)
+        {
+            if (env->curr_task_schedule[agent_id] == -1)
+            {
+                if (current_task_assignments[current_agent_original_task] == agent_id)
+                {
+                    std::cout << "警告: エージェント " << agent_id
+                              << " がタスク " << current_agent_original_task
+                              << " を持っているのに、タスクが解放されようとしています" << std::endl;
+                }
+                schedule[agent_id] = -1;
+                // std::cout << "  エージェント " << agent_id << " のタスクを解放" << std::endl;
+                return true;
+            }
+            else
+            {
+                // std::cout << "  エージェント " << agent_id << " は現在のタスク " << current_agent_original_task << " を保持" << std::endl;
+                // processed_agents.erase(agent_id);
+                return false;
+            }
+        }
+        // else
+        // {
+        //     // std::cout << "  エージェント " << agent_id << " は元々タスクを持っていません" << std::endl;
+        //     return true;
+        // }
+
+        // std::cout << "GetTask終了: エージェント " << agent_id << std::endl;
+        // processed_agents.erase(agent_id);
+        return false;
+    }
+
+    void schedule_plan_TPTS(int time_limit, std::vector<int> &proposed_schedule, SharedEnvironment *env)
+    {
+        // std::cout << "\n=== TPTS計画開始 ===" << std::endl;
+        auto endtime = std::chrono::steady_clock::now() +
+                       std::chrono::milliseconds(time_limit);
+
+        // std::cout << "実行中タスクの処理を開始" << std::endl;
+        // std::cout << "  実行中タスク数: " << global_available_tasks.size() << std::endl;
+        // std::cout << "  実行中タスク一覧: ";
+        // for (int task_id : global_available_tasks)
+        // {
+        //     std::cout << task_id << " ";
+        // }
+        // std::cout << std::endl;
+        // 実行中タスクの処理
+        // 安全に削除するため、削除対象のタスクIDを別のコンテナに保存
+        std::vector<int> tasks_to_remove;
+
+        // std::cerr << "proposed_schedule as start of schedule_plan_TPTS: ";
+        // for (const int &task : proposed_schedule)
+        // {
+        //     std::cerr << task << " ";
+        // }
+        // std::cerr << std::endl;
+
+        // std::cout << "処理前の利用可能タスク数: " << global_available_tasks.size() << std::endl;
+
+        for (int task_id : global_available_tasks)
+        {
+            // std::cout << "  タスク " << task_id << " の処理開始" << std::endl;
+            auto task_it = env->task_pool.find(task_id);
+            // std::cout << "  タスク " << task_id << " の検索結果: " << (task_it == env->task_pool.end() ? "見つかりません" : "見つかりました") << std::endl;
+            if (task_it == env->task_pool.end())
+                throw std::runtime_error("Task not found in task pool");
+
+            const Task &task = task_it->second;
+            if (task.idx_next_loc > 0)
+            {
+                // std::cout << "  タスク " << task_id << " は実行中のため利用可能タスクから除外" << std::endl;
+                // 削除対象として記録
+                tasks_to_remove.push_back(task_id);
+            }
+            if (task.agent_assigned != -1)
+            {
+                // std::cout << "  タスク " << task_id << " の担当エージェント " << task.agent_assigned
+                //           << " をfreeからongoingに移動" << std::endl;
+                // 担当エージェントをfreeから削除しongoingに追加
+                if (global_free_agents.find(task.agent_assigned) != global_free_agents.end())
+                {
+                    global_free_agents.erase(task.agent_assigned);
+                    global_ongoing_agents.insert(task.agent_assigned);
+                }
+                else
+                {
+                    // std::cout << "  エージェント " << task.agent_assigned << " はfreeではありません" << std::endl;
+                }
+            }
+            // std::cout << "  タスク " << task_id << " の処理完了" << std::endl;
+        }
+
+        // ループ終了後にまとめて削除
+        for (int task_id : tasks_to_remove)
+        {
+            global_available_tasks.erase(task_id);
+        }
+
+        // std::cout << "削除対象タスク数: " << tasks_to_remove.size() << std::endl;
+        // std::cout << "処理後の利用可能タスク数: " << global_available_tasks.size() << std::endl;
+
+        // current_task_assignmentsのtask idがtask poolになかったらerase
+        for (auto it = current_task_assignments.begin(); it != current_task_assignments.end();)
+        {
+            if (env->task_pool.find(it->first) == env->task_pool.end())
+            {
+                it = current_task_assignments.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
+        }
+
+        // std::cout << "\n新しいタスクの追加" << std::endl;
+        // std::cout << "  新規タスク数: " << env->new_tasks.size() << std::endl;
+        // 新しいタスクの追加
+        for (int task_id : env->new_tasks)
+        {
+            // std::cout << "  タスク " << task_id << " を利用可能タスクに追加" << std::endl;
+            global_available_tasks.insert(task_id);
+        }
+
+        // // エージェントのインデックスをベクトルに格納（freeなエージェントのみ）
+        // std::vector<int> agent_indices_old; // 既存のエージェント用
+        // for (int agent_id : global_free_agents)
+        // {
+        //     agent_indices_old.push_back(agent_id);
+        // }
+
+        // 既存エージェントをシャッフル
+        // std::shuffle(agent_indices_old.begin(), agent_indices_old.end(), mt3);
+        // agent_indices.reserve(env->new_freeagents.size() + global_free_agents.size());
+
+        // 最終的なエージェントリストを作成（新規→シャッフル済み既存の順）
+        std::vector<int> agent_indices;
+        // エージェントのインデックスをベクトルに格納（freeなエージェントのみ）
+        for (int agent_id : global_free_agents)
+        {
+            agent_indices.push_back(agent_id);
+        }
+
+        // 新しく解放されたエージェントを先頭に追加
+        for (int agent_id : env->new_freeagents)
+        {
+            global_free_agents.insert(agent_id);
+            global_ongoing_agents.erase(agent_id);
+            agent_indices.push_back(agent_id); // 新しいエージェントを先に追加
+        }
+
+        // 既存エージェントをシャッフル
+        std::shuffle(agent_indices.begin(), agent_indices.end(), mt3);
+
+        // // シャッフル済みの既存エージェントを後ろに追加
+        // agent_indices.insert(agent_indices.end(), agent_indices_old.begin(), agent_indices_old.end());
+
+        std::unordered_set<int> processed_agents;
+        // std::cout << "エージェントの順序をシャッフル完了" << std::endl;
+
+        std::unordered_set<int> &available_tasks = global_available_tasks;
+        // std::cout << "利用可能タスク数: " << available_tasks.size() << std::endl;
+
+        // std::cout << "\nGetTaskの実行開始" << std::endl;
+        // シャッフルされた順序でGetTaskを実行
+        for (int agent_id : agent_indices)
+        {
+            if (std::chrono::steady_clock::now() >= endtime)
+            {
+                // std::cout << "時間制限に達したため処理を終了" << std::endl;
+                break;
+            }
+            if (available_tasks.empty())
+            {
+                break;
+            }
+            GetTask(agent_id, proposed_schedule, env, available_tasks, processed_agents, endtime);
+        }
+        // std::cerr << "proposed_schedule as end of schedule_plan_TPTS  : ";
+        // for (const int &task : proposed_schedule)
+        // {
+        //     std::cerr << task << " ";
+        // }
+        // std::cerr << std::endl;
+        // std::cout << "\n=== 最終チェック ===" << std::endl;
+        // std::set<int> check_tasks;
+        // for (int i = 0; i < env->num_of_agents; i++)
+        // {
+        //     if (proposed_schedule[i] != -1)
+        //     {
+        //         // std::cout << "  エージェント " << i << " -> タスク " << proposed_schedule[i] << std::endl;
+        //         if (!check_tasks.insert(proposed_schedule[i]).second)
+        //         {
+        //             std::cerr << "エラー: タスク " << proposed_schedule[i] << " が複数回割り当てられています!" << std::endl;
+        //             throw std::runtime_error("Duplicate task assignment detected as end of generateInitialScheduleNew");
+        //         }
+        //     }
+        // }
+        // スケジュールの整合性チェック
+        // for (size_t agent_id = 0; agent_id < proposed_schedule.size(); agent_id++)
+        // {
+        //     // 現在のスケジュールがタスクを持っているのに、提案されたスケジュールがタスクを持っていない場合
+        //     if (env->curr_task_schedule[agent_id] != -1 && proposed_schedule[agent_id] == -1)
+        //     {
+        //         // 警告メッセージを表示
+        //         std::cerr << "警告: エージェント " << agent_id
+        //                   << " の現在のタスク " << env->curr_task_schedule[agent_id]
+        //                   << " が不適切に解放されようとしています" << std::endl;
+        //     }
+        // }
+        // std::cout << "=== TPTS計画終了 ===" << std::endl;
+    }
+}

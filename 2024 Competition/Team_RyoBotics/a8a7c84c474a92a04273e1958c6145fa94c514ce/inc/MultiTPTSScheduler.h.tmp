@@ -1,0 +1,87 @@
+#ifndef MULTITPTSSCHEDULER_H
+#define MULTITPTSSCHEDULER_H
+
+#include "SharedEnv.h"
+#include "TPTSScheduler.h"
+#include <mutex>
+#include <thread>
+#include <atomic>
+#include <condition_variable>
+#include <shared_mutex>
+namespace MultiTPTSPlanner
+{
+    class ThreadSafeScheduler
+    {
+    private:
+        // std::mutex mtx;
+        std::shared_mutex shared_mtx;
+        std::mutex agent_mtx; // エージェント処理用のミューテックス
+        std::condition_variable cv;
+        std::atomic<bool> should_terminate;
+
+        // スレッドセーフな処理のためのデータ構造
+        std::unordered_set<int> processing_agents; // 現在処理中のエージェント
+
+        bool tryMarkAgentAsProcessing(int agent_id)
+        {
+            std::lock_guard<std::mutex> lock(agent_mtx);
+            if (processing_agents.find(agent_id) != processing_agents.end())
+            {
+                return false; // 既に処理中
+            }
+            processing_agents.insert(agent_id);
+            return true; // 処理開始成功
+        }
+
+        void markAgentAsFinished(int agent_id)
+        {
+            std::lock_guard<std::mutex> lock(agent_mtx);
+            processing_agents.erase(agent_id);
+        }
+
+        void clearProcessingAgents()
+        {
+            std::lock_guard<std::mutex> lock(agent_mtx);
+            processing_agents.clear();
+        }
+
+    public:
+        ThreadSafeScheduler() : should_terminate(false) {}
+
+        void schedule_plan_MultiTPTS(int time_limit, std::vector<int> &proposed_schedule, SharedEnvironment *env);
+
+    private:
+        void worker_thread(std::vector<int> &agent_batch,
+                           std::vector<int> &proposed_schedule,
+                           SharedEnvironment *env,
+                           std::unordered_set<int> &processed_agents,
+                           std::chrono::steady_clock::time_point endtime);
+
+        bool tryGetTask(int agent_id,
+                        std::vector<int> &schedule,
+                        SharedEnvironment *env,
+                        std::unordered_set<int> &processed_agents,
+                        std::chrono::steady_clock::time_point endtime);
+
+        // スレッドセーフなGetTask実装
+        bool GetTaskThreadSafe(
+            int agent_id,
+            std::vector<int> &schedule,
+            SharedEnvironment *env,
+            std::unordered_set<int> &processed_agents,
+            std::chrono::steady_clock::time_point endtime);
+
+        // タスク割り当ての変更を安全に行うためのヘルパー関数
+        bool tryReassignTask(
+            int agent_id,
+            int requested_agent_distance,
+            int task_id,
+            int assigned_agent_id,
+            std::vector<int> &schedule,
+            SharedEnvironment *env,
+            std::unordered_set<int> &processed_agents,
+            std::chrono::steady_clock::time_point endtime);
+    };
+}
+
+#endif

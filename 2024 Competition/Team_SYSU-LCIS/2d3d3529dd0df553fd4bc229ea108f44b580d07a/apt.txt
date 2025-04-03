@@ -1,0 +1,7 @@
+cmake
+build-essential
+libboost-all-dev
+python3-pip
+libomp-dev
+python3-numpy
+libeigen3-dev

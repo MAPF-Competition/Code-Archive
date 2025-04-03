@@ -1,0 +1,8 @@
+{
+    "mapFile": "maps/Paris_1_256.map",
+    "agentFile": "agents/cityTest_100.agents",
+    "teamSize": 100,
+    "taskFile": "tasks/cityTest.tasks",
+    "numTasksReveal": 1,
+    "taskAssignmentStrategy": "roundrobin"
+}

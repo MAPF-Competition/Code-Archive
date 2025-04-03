@@ -1,0 +1,49 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/25.0.2 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="25.0.2">
+  <diagram name="第 1 页" id="GL3BL544SjVAO1XGgeyc">
+    <mxGraphModel dx="1208" dy="702" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="PgBbjDfo2BCgbaOhngJ4-3" value="" style="verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.half_circle;rotation=-90;dashed=1;" parent="1" vertex="1">
+          <mxGeometry x="120" y="301.25" width="280" height="127.5" as="geometry" />
+        </mxCell>
+        <mxCell id="PgBbjDfo2BCgbaOhngJ4-4" value="agent" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="128.75" y="350" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="PgBbjDfo2BCgbaOhngJ4-5" value="task" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="331.25" y="350" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="PgBbjDfo2BCgbaOhngJ4-7" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="PgBbjDfo2BCgbaOhngJ4-3" target="PgBbjDfo2BCgbaOhngJ4-3" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="361.25" y="400" as="sourcePoint" />
+            <mxPoint x="411.25" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PgBbjDfo2BCgbaOhngJ4-8" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="PgBbjDfo2BCgbaOhngJ4-3" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="201.25" y="360" as="sourcePoint" />
+            <mxPoint x="231.25" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PgBbjDfo2BCgbaOhngJ4-9" value="other agent" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="196.25" y="270" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="PgBbjDfo2BCgbaOhngJ4-10" value="jam和向量ao的长度负相关&lt;div&gt;jam和向量ao与向量at的夹角负相关&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="135" y="533" width="210" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="PgBbjDfo2BCgbaOhngJ4-12" value="向量ao" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="216.25" y="310" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="PgBbjDfo2BCgbaOhngJ4-13" value="向量at" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="230" y="360" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="irn3IEMqGhAhWKfysnm7-1" value="设计 jam = cos&amp;lt;ao, at&amp;gt; / |ao| = inner(ao, at) / (|ao||ao||at|)&amp;nbsp; if inner(ao, at) &amp;gt; 0 and |ao| &amp;lt; |at|&lt;div&gt;=0, otherwise&lt;/div&gt;&lt;div&gt;相当于检索以agent为圆心，|at|为半径的半圆&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="5" y="575" width="510" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ykkkJoNUq_EkespVuApI-2" value="pickup jam based current location vector" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="140" y="158" width="240" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

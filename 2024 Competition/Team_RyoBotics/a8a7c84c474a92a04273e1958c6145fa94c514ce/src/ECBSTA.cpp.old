@@ -1,0 +1,820 @@
+#include "ECBSTA.h"
+#include <queue>
+#include <algorithm>
+#include <chrono>
+#include <iostream>
+namespace ECBSTA_NS
+{
+    // ハンガリアン法によるタスク割り当てを行う関数
+    Assignment constrainedAssignment(const std::unordered_set<AgentTaskPair> &I,
+                                     const std::unordered_set<AgentTaskPair> &O,
+                                     const std::vector<std::vector<int>> &C)
+    {
+        const int num_agents = C.size();
+        const int num_tasks = C[0].size();
+
+        // コスト行列のコピーを作成
+        std::vector<std::vector<int>> cost_matrix = C;
+
+        // 強制割り当て(I)の処理
+        const int FORCED_COST = 0;
+        for (const auto &forced : I)
+        {
+            cost_matrix[forced.agent][forced.task] = FORCED_COST;
+        }
+
+        // 割り当て禁止(O)の処理
+        const int FORBIDDEN_COST = 100000;
+        for (const auto &forbidden : O)
+        {
+            cost_matrix[forbidden.agent][forbidden.task] = FORBIDDEN_COST;
+        }
+
+        // ハンガリアン法による割り当ての実行
+        return hungarianMethod(cost_matrix);
+    }
+
+    // 最初の割り当てを生成する関数
+    std::pair<Assignment, std::vector<Node>> firstAssignment(const std::vector<std::vector<int>> &C)
+    {
+        Node R;
+        R.I.clear();
+        R.O.clear();
+        R.root = true;
+
+        // 制約なしでの最初の割り当てを取得
+        R.assignment = constrainedAssignment(R.I, R.O, C);
+        std::cout << "R.assignment: " << R.assignment.size() << std::endl;
+
+        if (R.assignment.empty())
+        {
+            return {Assignment(), std::vector<Node>()};
+        }
+
+        // ASG_OPENの初期化
+        std::vector<Node> ASG_OPEN;
+        ASG_OPEN.push_back(R);
+
+        return {R.assignment, ASG_OPEN};
+    }
+
+    // 次の割り当てを生成する関数
+    std::pair<Assignment, std::vector<Node>> nextAssignment(
+        const std::vector<std::vector<int>> &C,
+        std::vector<Node> &ASG_OPEN)
+    {
+        if (ASG_OPEN.empty())
+        {
+            return {Assignment(), ASG_OPEN};
+        }
+
+        // コストが最小のノードを取得
+        auto min_it = std::min_element(ASG_OPEN.begin(), ASG_OPEN.end(),
+                                       [](const Node &a, const Node &b)
+                                       { return a.cost < b.cost; });
+
+        Node P = *min_it;
+        ASG_OPEN.erase(min_it);
+
+        const int num_tasks = C[0].size();
+
+        // 各タスクについて新しい制約を試す
+        for (int task = 0; task < num_tasks; ++task)
+        {
+            // タスクがすでに強制割り当てリストにある場合はスキップ
+            bool task_forced = false;
+            for (const auto &forced : P.I)
+            {
+                if (forced.task == task)
+                {
+                    task_forced = true;
+                    break;
+                }
+            }
+            if (task_forced)
+            {
+                continue;
+            }
+
+            // 新しいノードを作成
+            Node Q = P;
+            Q.root = false;
+
+            // taskを持つagentを探す
+            int agent_with_task = -1;
+            for (const auto &[agent, t] : P.assignment)
+            {
+                if (t == task)
+                {
+                    agent_with_task = agent;
+                    break;
+                }
+            }
+            if (agent_with_task != -1)
+            {
+                Q.O.insert({agent_with_task, task});
+            }
+
+            // 新しい制約での割り当てを試行
+            Q.assignment = constrainedAssignment(Q.I, Q.O, C);
+
+            if (!Q.assignment.empty())
+            {
+                // コストを計算
+                Q.cost = calculateAssignmentCost(Q.assignment, C);
+                ASG_OPEN.push_back(Q);
+            }
+        }
+
+        // ASG_OPENから最適な割り当てを見つける
+        if (!ASG_OPEN.empty())
+        {
+            auto best_it = std::min_element(ASG_OPEN.begin(), ASG_OPEN.end(),
+                                            [](const Node &a, const Node &b)
+                                            { return a.cost < b.cost; });
+            return {best_it->assignment, ASG_OPEN};
+        }
+
+        return {Assignment(), ASG_OPEN};
+    }
+
+    // ハンガリアン法の実装（必要な補助関数）
+    Assignment hungarianMethod(const std::vector<std::vector<int>> &cost_matrix)
+    {
+        bool agent_surplus = cost_matrix.size() > cost_matrix[0].size();
+        SchedulerUtils::Hungarian::Matrix matrix(cost_matrix, agent_surplus);
+        return matrix.solve();
+    }
+
+    // 割り当ての総コストを計算する補助関数
+    int calculateAssignmentCost(const Assignment &assignment,
+                                const std::vector<std::vector<int>> &C)
+    {
+        int total_cost = 0;
+        for (const auto &[agent, task] : assignment)
+        {
+            total_cost += C[agent][task];
+        }
+        return total_cost;
+    }
+
+    Path findPath(const Graph &graph,
+                  int start,
+                  int goal,
+                  const std::unordered_set<Constraint, ConstraintHash, ConstraintEqual> &constraints,
+                  int agent_id)
+    {
+
+        // ノードの状態からIDへのマップ
+        std::unordered_map<PathNodeState, size_t, PathNodeStateHash> state_to_id;
+        // IDからノードへのマップ
+        std::unordered_map<size_t, PathNode> path_nodes;
+        // IDベースの優先度付きキュー
+        std::priority_queue<size_t, std::vector<size_t>,
+                            std::function<bool(size_t, size_t)>>
+            open_list(
+                [&](size_t a, size_t b)
+                {
+                    return path_nodes[a].f_score > path_nodes[b].f_score;
+                });
+
+        size_t next_node_id = 0;
+
+        // 開始ノードの作成
+        int h_score = calculateHeuristic(start, goal, graph);
+        PathNode start_node(next_node_id, start, 0, h_score, 0);
+        path_nodes[next_node_id] = start_node;
+        state_to_id[PathNodeState{start, 0}] = next_node_id;
+        open_list.push(next_node_id);
+        next_node_id++;
+
+        while (!open_list.empty())
+        {
+            size_t current_id = open_list.top();
+            open_list.pop();
+            PathNode &current = path_nodes[current_id];
+
+            // ノードが既に展開済みの場合はスキップ
+            if (!current.is_open)
+            {
+                continue;
+            }
+            current.is_open = false;
+
+            // ゴールに到達した場合
+            if (current.location == goal)
+            {
+                return reconstructPath(current_id, path_nodes);
+            }
+
+            // 隣接ノードの探索
+            for (int next_loc : graph.getNeighbors(current.location))
+            {
+                int next_time = current.time_step + 1;
+
+                // 制約チェック
+                if (isConstrained(agent_id, next_loc, next_time, constraints))
+                {
+                    continue;
+                }
+
+                int next_g = current.g_score + graph.getCost(current.location, next_loc);
+                int next_h = calculateHeuristic(next_loc, goal, graph);
+                int next_f = next_g + next_h;
+
+                // 新しいノードを作成
+                PathNode next_node(next_node_id, next_loc, next_g, next_f,
+                                   next_time, current_id);
+                path_nodes[next_node_id] = next_node;
+                state_to_id[PathNodeState{next_loc, next_time}] = next_node_id;
+                open_list.push(next_node_id);
+                next_node_id++;
+            }
+        }
+
+        // パスが見つからない場合
+        return Path();
+    }
+
+    // パス再構築関数も修正
+    Path reconstructPath(size_t goal_id,
+                         const std::unordered_map<size_t, PathNode> &nodes)
+    {
+        Path path;
+        size_t current_id = goal_id;
+
+        while (current_id != 0)
+        {
+            const PathNode &current = nodes.at(current_id);
+            path.nodes.insert(path.nodes.begin(), current.location);
+            path.cost += (current.parent_id != 0 ? 1 : 0);
+            current_id = current.parent_id;
+        }
+        // 開始ノードを追加
+        if (!nodes.empty())
+        {
+            path.nodes.insert(path.nodes.begin(), nodes.at(0).location);
+        }
+
+        return path;
+    }
+
+    bool isConstrained(int agent_id,
+                       int location,
+                       int time_step,
+                       const std::unordered_set<Constraint, ConstraintHash, ConstraintEqual> &constraints)
+    {
+        Constraint constraint(agent_id, location, time_step);
+        if (constraints.find(constraint) != constraints.end())
+        {
+            return true;
+        }
+        return false;
+        // for (const auto &constraint : constraints)
+        // {
+        //     if (constraint.agent == agent_id &&
+        //         constraint.location == location &&
+        //         constraint.timeStep == time_step)
+        //     {
+        //         return true;
+        //     }
+        // }
+        // return false;
+    }
+
+    int calculateHeuristic(int current, int goal, const Graph &graph)
+    {
+        // 簡単な実装例：ユークリッド距離やマンハッタン距離を使用
+        // グラフの実装に依存するため、適切な距離計算方法を選択する必要があります
+        return graph.getEstimatedDistance(current, goal);
+    }
+
+    std::vector<Path> findIndividualPaths(const Graph &graph,
+                                          const std::vector<int> &starts,
+                                          const std::vector<int> &goals,
+                                          const std::unordered_set<Constraint, ConstraintHash, ConstraintEqual> &constraints)
+    {
+        std::vector<Path> paths;
+        paths.reserve(starts.size());
+
+        for (size_t i = 0; i < starts.size(); ++i)
+        {
+            Path path = findPath(graph, starts[i], goals[i], constraints, i);
+            paths.push_back(path);
+        }
+
+        return paths;
+    }
+
+    ConflictInfo detectConflicts(const std::vector<Path> &paths)
+    {
+        ConflictInfo result;
+        const int num_agents = paths.size();
+
+        // すべてのエージェントのペアについて衝突をチェック
+        for (int i = 0; i < num_agents; ++i)
+        {
+            for (int j = i + 1; j < num_agents; ++j)
+            {
+                // 頂点衝突の検出
+                if (detectVertexConflict(paths[i], paths[j], i, j, result.conflicts))
+                {
+                    result.hasConflict = true;
+                }
+
+                // エッジ衝突の検出
+                if (detectEdgeConflict(paths[i], paths[j], i, j, result.conflicts))
+                {
+                    result.hasConflict = true;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    bool detectVertexConflict(const Path &path1, const Path &path2,
+                              int agent1, int agent2,
+                              std::vector<Conflict> &conflicts)
+    {
+        const int max_time = std::max(path1.nodes.size(), path2.nodes.size());
+        bool found_conflict = false;
+
+        for (int t = 0; t < max_time; ++t)
+        {
+            // パスの長さを超えた場合は最後の位置にとどまっていると仮定
+            int pos1 = t < path1.nodes.size() ? path1.nodes[t] : path1.nodes.back();
+            int pos2 = t < path2.nodes.size() ? path2.nodes[t] : path2.nodes.back();
+
+            // 同じ場所にいる場合は衝突
+            if (pos1 == pos2)
+            {
+                conflicts.emplace_back(agent1, agent2, t, pos1);
+                found_conflict = true;
+            }
+        }
+
+        return found_conflict;
+    }
+
+    bool detectEdgeConflict(const Path &path1, const Path &path2,
+                            int agent1, int agent2,
+                            std::vector<Conflict> &conflicts)
+    {
+        bool found_conflict = false;
+        const int max_time = std::max(path1.nodes.size(), path2.nodes.size()) - 1;
+
+        for (int t = 0; t < max_time; ++t)
+        {
+            // t時点とt+1時点の位置を取得
+            int pos1_t = t < path1.nodes.size() ? path1.nodes[t] : path1.nodes.back();
+            int pos1_t1 = (t + 1) < path1.nodes.size() ? path1.nodes[t + 1] : path1.nodes.back();
+            int pos2_t = t < path2.nodes.size() ? path2.nodes[t] : path2.nodes.back();
+            int pos2_t1 = (t + 1) < path2.nodes.size() ? path2.nodes[t + 1] : path2.nodes.back();
+
+            // エージェントが位置を交換する場合
+            if (pos1_t == pos2_t1 && pos1_t1 == pos2_t)
+            {
+                // エッジ衝突として記録
+                // 便宜上、衝突位置は最初のエージェントの位置とする
+                conflicts.emplace_back(agent1, agent2, t + 1, pos1_t);
+                found_conflict = true;
+            }
+        }
+
+        return found_conflict;
+    }
+
+    int getMaxTimeStep(const std::vector<Path> &paths)
+    {
+        int max_time = 0;
+        for (const auto &path : paths)
+        {
+            max_time = std::max(max_time, static_cast<int>(path.nodes.size()));
+        }
+        return max_time;
+    }
+
+    ECBSTA::ECBSTA(const Graph &graph, double w)
+        : graph(graph), w(w), min_lb(std::numeric_limits<double>::max()), r(0.0)
+    {
+    }
+
+    void ECBSTA::updateMinLBAndR(double new_lb)
+    {
+        if (new_lb < min_lb)
+        {
+            min_lb = new_lb;
+            r = w * min_lb;
+        }
+    }
+
+    bool ECBSTA::shouldGenerateNewRoot(const Node &node) const
+    {
+        return node.cost > r;
+    }
+
+    int ECBSTA::calculateLowerBound(const Node &node,
+                                    const std::vector<std::vector<int>> &C) const
+    {
+        int total_cost = 0;
+        for (const auto &[agent, task] : node.assignment)
+        {
+            total_cost += C[agent][task];
+        }
+        return total_cost;
+    }
+
+    void ECBSTA::updateFocalList(
+        std::priority_queue<size_t, std::vector<size_t>, std::function<bool(size_t, size_t)>> &OPEN,
+        std::priority_queue<size_t, std::vector<size_t>, std::function<bool(size_t, size_t)>> &FOCAL)
+    {
+        if (OPEN.empty())
+            return;
+
+        // OPENの最良ノードのコストを取得
+        int best_cost = nodes[OPEN.top()]->cost;
+
+        // 現在のFOCALの内容を一時保存
+        std::vector<size_t> temp_ids;
+        while (!FOCAL.empty())
+        {
+            temp_ids.push_back(FOCAL.top());
+            FOCAL.pop();
+        }
+
+        // OPENの内容を一時保存しながらFOCALを更新
+        std::vector<size_t> open_ids;
+        while (!OPEN.empty())
+        {
+            size_t id = OPEN.top();
+            OPEN.pop();
+            open_ids.push_back(id);
+
+            // FOCALに入れるべきノードか判定
+            if (shouldBeInFocal(nodes[id], best_cost))
+            {
+                FOCAL.push(id);
+            }
+        }
+
+        // OPENを復元
+        for (auto id : open_ids)
+        {
+            OPEN.push(id);
+        }
+    }
+
+    bool ECBSTA::shouldBeInFocal(const Node *node, double best_cost) const
+    {
+        return node->cost <= w * best_cost;
+    }
+
+    std::vector<Path> ECBSTA::solve(const std::vector<int> &starts,
+                                    const std::vector<int> &goals,
+                                    int time_limit_ms,
+                                    const std::unordered_set<int> &I,
+                                    const std::unordered_set<int> &O)
+    {
+        auto start_time = std::chrono::steady_clock::now();
+        next_node_id = 0; // IDカウンタの初期化
+
+        // OPENリストとFOCALリストを準備（IDベースで管理）
+        NodeComparator open_compare = [this](size_t a, size_t b)
+        {
+            return nodes[a]->cost > nodes[b]->cost;
+        };
+        std::priority_queue<size_t, std::vector<size_t>, NodeComparator> OPEN(open_compare);
+
+        // FOCALも同様に
+        NodeComparator focal_compare = open_compare;
+        std::priority_queue<size_t, std::vector<size_t>, NodeComparator> FOCAL(focal_compare);
+
+        // 初期ノードの生成と初期化
+        Node *root = new Node();
+        root->root = true;
+
+        // 初期割り当ての取得
+        auto [initial_assignment, ASG_OPEN] = firstAssignment(cost_matrix);
+        if (initial_assignment.empty())
+        {
+            return std::vector<Path>();
+        }
+
+        root->assignment = initial_assignment;
+
+        // 初期解の検証と下界値の計算
+        if (!validateNode(*root, starts, goals))
+        {
+            delete root;
+            return std::vector<Path>();
+        }
+
+        root->lb = calculateLowerBound(*root, cost_matrix);
+        updateMinLBAndR(root->lb);
+
+        size_t root_id = getOrCreateNodeId(NodeIdentity{root->constraints, root->assignment});
+        OPEN.push(root_id);
+        if (root->cost <= w * nodes[OPEN.top()]->cost)
+        {
+            FOCAL.push(root_id);
+        }
+
+        // メインループ
+        bool is_new_root = false;
+        std::vector<Path> result;
+        while (!OPEN.empty() && !isTimeOut(start_time, time_limit_ms))
+        {
+            // 新しいルートが生成された場合
+            if (is_new_root)
+            {
+                is_new_root = false;
+                // FOCALリストを更新
+                updateFocalList(OPEN, FOCAL);
+            }
+
+            if (FOCAL.empty())
+                break;
+
+            size_t current_id = FOCAL.top();
+            FOCAL.pop();
+            Node *current = nodes[current_id];
+
+            // MinRootの処理：コストがrを超えた場合、新しいrootを生成
+            if (shouldGenerateNewRoot(*current))
+            {
+                Node *new_root = generateNextRoot();
+                if (new_root != nullptr)
+                {
+                    if (!validateNode(*new_root, starts, goals))
+                    {
+                        delete new_root;
+                        continue;
+                    }
+                    new_root->lb = calculateLowerBound(*new_root, cost_matrix);
+                    updateMinLBAndR(new_root->lb);
+                    size_t new_root_id = getOrCreateNodeId(NodeIdentity{new_root->constraints, new_root->assignment});
+                    OPEN.push(new_root_id);
+                    // FOCALの更新は次のループで行われる
+                    // フラグを立てる
+                    is_new_root = true;
+                }
+            }
+
+            // 衝突チェック
+            ConflictInfo conflict_info = detectConflicts(current->solution);
+            if (!conflict_info.hasConflict)
+            {
+                result = current->solution;
+                break;
+            }
+
+            // 子ノード生成と追加
+            auto children = createChildNodes(*current, conflict_info.conflicts[0]);
+            for (auto &child : children)
+            {
+                NodeIdentity child_identity = child.getIdentity();
+                Node *child_node = getOrCreateNode(child_identity);
+
+                if (validateNode(*child_node, starts, goals))
+                {
+                    child_node->is_open = true; // OPENとしてマーク
+                    OPEN.push(child_node->id);
+                }
+            }
+        }
+
+        // メモリ解放
+        for (auto &[id, node] : nodes)
+        {
+            delete node;
+        }
+        nodes.clear();
+        node_id_map.clear();
+
+        return result;
+    }
+
+    std::vector<Node> ECBSTA::createChildNodes(const Node &parent,
+                                               const Conflict &conflict)
+    {
+        std::vector<Node> children;
+
+        // agent1用の子ノード
+        Node child1 = parent;
+        child1.root = false;
+        // 親ノードの制約を引き継ぐ
+        child1.I = parent.I;
+        child1.O = parent.O;
+        child1.assignment = parent.assignment;
+        // 新しい衝突回避制約を追加
+        child1.constraints.insert(Constraint(conflict.agent1,
+                                             conflict.location,
+                                             conflict.timeStep));
+        children.push_back(child1);
+
+        // agent2用の子ノード
+        Node child2 = parent;
+        child2.root = false;
+        // 親ノードの制約を引き継ぐ
+        child2.I = parent.I;
+        child2.O = parent.O;
+        child2.assignment = parent.assignment;
+        // 新しい衝突回避制約を追加
+        child2.constraints.insert(Constraint(conflict.agent2,
+                                             conflict.location,
+                                             conflict.timeStep));
+        children.push_back(child2);
+
+        return children;
+    }
+
+    void ECBSTA::calculateCostMatrix(const std::vector<int> &starts,
+                                     const std::vector<int> &goals)
+    {
+        const int num_agents = starts.size();
+        const int num_goals = goals.size();
+
+        cost_matrix.resize(num_agents, std::vector<int>(num_goals));
+
+        for (int i = 0; i < num_agents; ++i)
+        {
+            for (int j = 0; j < num_goals; ++j)
+            {
+                // Single Agent Pathをコストとして使用
+                cost_matrix[i][j] = graph.getEstimatedDistance(starts[i], goals[j]);
+            }
+        }
+    }
+
+    bool ECBSTA::validateNode(Node &node,
+                              const std::vector<int> &starts,
+                              const std::vector<int> &goals)
+    {
+        // 割り当ての制約チェック
+        for (const auto &[agent, task] : node.assignment)
+        {
+            // 禁止されている(agent,task)ペアがないかチェック
+            if (node.O.count({agent, task}))
+            {
+                std::cout << "禁止されている(agent,task)ペアがある" << std::endl;
+                return false;
+            }
+        }
+
+        // 強制割り当てがすべて含まれているかチェック
+        for (const auto &forced : node.I)
+        {
+            auto it = node.assignment.find(forced.agent);
+            if (it == node.assignment.end() || it->second != forced.task)
+            {
+                std::cout << "強制割り当てがすべて含まれていない" << std::endl;
+                return false;
+            }
+        }
+
+        // 割り当てに基づいてパスを生成
+        node.solution.resize(starts.size());
+        for (const auto &[agent, task] : node.assignment)
+        {
+            int startLoc = starts[agent];
+            int goalLoc = goals[task]; // 割り当てられたタスクのゴール位置を使用
+            node.solution[agent] = findPath(graph, startLoc, goalLoc, node.constraints, agent);
+
+            // パスが見つからなかった場合
+            if (node.solution[agent].nodes.empty())
+            {
+                std::cout << "パスが見つからなかった" << std::endl;
+                return false;
+            }
+        }
+
+        // ノードのコストを更新
+        node.cost = 0;
+        for (const auto &path : node.solution)
+        {
+            node.cost += path.cost;
+        }
+
+        return true;
+    }
+
+    bool ECBSTA::isTimeOut(const std::chrono::steady_clock::time_point &start_time,
+                           int time_limit_ms) const
+    {
+        auto current_time = std::chrono::steady_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                           current_time - start_time)
+                           .count();
+        return elapsed >= time_limit_ms;
+    }
+
+    Node *ECBSTA::generateNextRoot()
+    {
+        // 次の割り当て候補を生成
+        auto roots = generateNextRoots();
+
+        // コストが最小の割り当てを選択
+        Node *best_root = nullptr;
+        double min_cost = std::numeric_limits<double>::max();
+
+        for (const auto &root : roots)
+        {
+            if (root.cost < min_cost && isValidAssignment(root.assignment))
+            {
+                if (best_root)
+                    delete best_root;
+                best_root = new Node(root);
+                min_cost = root.cost;
+            }
+        }
+
+        return best_root;
+    }
+
+    std::vector<Node> ECBSTA::generateNextRoots()
+    {
+        std::vector<Node> candidates;
+
+        // 現在の最適割り当てを基に、1つのタスクだけ異なる割り当てを生成
+        const int num_agents = cost_matrix.size();
+        const int num_tasks = cost_matrix[0].size();
+
+        // 基本となる割り当てを取得
+        auto base_assignment = hungarianMethod(cost_matrix);
+
+        // 各エージェントについて
+        for (int i = 0; i < num_agents; ++i)
+        {
+            int current_task = base_assignment[i];
+
+            // 現在のタスク以外の各タスクを試す
+            for (int j = 0; j < num_tasks; ++j)
+            {
+                if (j == current_task)
+                    continue;
+
+                // 新しい割り当ての作成
+                Node new_root;
+                new_root.root = true;
+                new_root.assignment = base_assignment;
+                new_root.assignment[i] = j; // タスクを変更
+
+                // コストの計算
+                new_root.cost = calculateAssignmentCost(new_root.assignment, cost_matrix);
+
+                candidates.push_back(new_root);
+            }
+        }
+
+        return candidates;
+    }
+
+    bool ECBSTA::isValidAssignment(const Assignment &assignment) const
+    {
+        std::unordered_set<int> used_tasks;
+
+        // 各割り当てをチェック
+        for (const auto &[agent, task] : assignment)
+        {
+            // タスクの重複チェック
+            if (used_tasks.count(task) > 0)
+            {
+                return false;
+            }
+            used_tasks.insert(task);
+        }
+
+        return true;
+    }
+
+    size_t ECBSTA::getOrCreateNodeId(const NodeIdentity &identity)
+    {
+        auto it = node_id_map.find(identity);
+        if (it != node_id_map.end())
+        {
+            return it->second;
+        }
+        size_t new_id = next_node_id++;
+        node_id_map[identity] = new_id;
+        return new_id;
+    }
+
+    Node *ECBSTA::getOrCreateNode(const NodeIdentity &identity)
+    {
+        size_t id = getOrCreateNodeId(identity);
+        auto it = nodes.find(id);
+        if (it != nodes.end())
+        {
+            return it->second;
+        }
+
+        // 新しいノードを作成
+        Node *new_node = new Node();
+        new_node->id = id;
+        new_node->constraints = identity.constraints;
+        new_node->assignment = identity.assignment;
+        nodes[id] = new_node;
+        return new_node;
+    }
+}

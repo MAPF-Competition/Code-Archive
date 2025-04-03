@@ -1,0 +1,13 @@
+prefix=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210
+exec_prefix=/root/or-tools/or-tools_x86_64_Ubuntu-22.04_cpp_v9.11.4210
+libdir=lib
+sharedlibdir=lib
+includedir=include
+
+Name: zlib
+Description: zlib compression library
+Version: 9.11.4210
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}

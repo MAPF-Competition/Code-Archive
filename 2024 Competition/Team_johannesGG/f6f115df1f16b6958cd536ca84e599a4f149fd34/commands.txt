@@ -1,0 +1,17 @@
+Generate Problems:
+go into Problem generator repo. Readme is good.
+Run code in environment: source env_generator/bin/activate
+
+
+
+build:
+cmake -B build ./ -DCMAKE_BUILD_TYPE=Release
+make -C build -j2
+
+Run training
+./build/lifelong --inputFile ./example_problems/random.domain/random_32_32_20_200.json -o outputs/tmp.json -s 20
+
+
+
+Own code in default stuff:
+// XYZmystuff

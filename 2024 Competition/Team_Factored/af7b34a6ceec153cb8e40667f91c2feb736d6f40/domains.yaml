@@ -1,0 +1,7 @@
+
+city: "./example_problems/city.domain/paris_1_256_250.json"
+game: "./example_problems/game.domain/brc202d_500.json"
+random: "./example_problems/random.domain/random_32_32_20_100.json"
+empty: "./example_problems/empty.domain/empty_8_8.json"
+warehouse: "./example_problems/warehouse.domain/sortation_large_2000.json"
+warehouse-xl: "./example_problems/warehouse.domain/warehouse_large_5000.json"

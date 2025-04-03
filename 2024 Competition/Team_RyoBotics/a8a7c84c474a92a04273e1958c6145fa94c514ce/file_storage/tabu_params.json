@@ -1,0 +1,6 @@
+{
+    "base_tabu_tenure": 10,
+    "max_iterations_without_improvement": 10,
+    "step_for_tabu_increase": 100,
+    "step_for_tabu_reset": 1000
+}

@@ -1,0 +1,482 @@
+[2024-12-31 18:29:58.736137] [0x00007f689dbf3740] [info]    [timestep=0] Preprocessing success
+[2024-12-31 18:29:58.736364] [0x00007f689dbf3740] [info]    Task 0 is revealed
+[2024-12-31 18:29:58.736397] [0x00007f689dbf3740] [info]    Task 1 is revealed
+[2024-12-31 18:29:58.736415] [0x00007f689dbf3740] [info]    Task 2 is revealed
+Time Usage: 0.001597
+new free agents: 2 new tasks: 3
+free agents: 0 free tasks: 1
+Agent0 : S=(11,8) ; G=(25,2)
+Agent1 : S=(19,28) ; G=(19,19)
+Disjoint WDG+R+C+T+BP with SIPP    : Agent 0 (20 -->20): 360->359->358->390->422->454->486->485->484->516->548->580->612->644->676->675->707->739->771->770->802->
+Agent 1 (17 -->17): 636->635->603->602->570->538->506->505->504->503->502->534->533->565->597->596->628->627->
+Lowerbound increases from 0 to 37
+
+Pop Node 1 from focal ( f = 37 + 0, f hat = 37 + 0, d = 0 ) with 0 new paths 
+Succeed,37,0.001324,0,39,37,37,37,
+(0 0, (11,8), (11,7)) (0 1, (11,7), (11,6)) (0 2, (11,6), (12,6)) (0 3, (12,6), (13,6)) (0 4, (13,6), (14,6)) (0 5, (14,6), (15,6)) (0 6, (15,6), (15,5)) (0 7, (15,5), (15,4)) (0 8, (15,4), (16,4)) (0 9, (16,4), (17,4)) (0 10, (17,4), (18,4)) (0 11, (18,4), (19,4)) (0 12, (19,4), (20,4)) (0 13, (20,4), (21,4)) (0 14, (21,4), (21,3)) (0 15, (21,3), (22,3)) (0 16, (22,3), (23,3)) (0 17, (23,3), (24,3)) (0 18, (24,3), (24,2)) (0 19, (24,2), (25,2)) 
+(1 0, (19,28), (19,27)) (1 1, (19,27), (18,27)) (1 2, (18,27), (18,26)) (1 3, (18,26), (17,26)) (1 4, (17,26), (16,26)) (1 5, (16,26), (15,26)) (1 6, (15,26), (15,25)) (1 7, (15,25), (15,24)) (1 8, (15,24), (15,23)) (1 9, (15,23), (15,22)) (1 10, (15,22), (16,22)) (1 11, (16,22), (16,21)) (1 12, (16,21), (17,21)) (1 13, (17,21), (18,21)) (1 14, (18,21), (18,20)) (1 15, (18,20), (19,20)) (1 16, (19,20), (19,19)) 
+incoming edges: (0 0, (11,8), (11,7)) edges: (0 1, (11,7), (11,6)) 
+incoming edges: (0 0, (11,8), (11,7)) (0 1, (11,7), (11,6)) edges: (0 2, (11,6), (12,6)) 
+incoming edges: (0 1, (11,7), (11,6)) (0 2, (11,6), (12,6)) edges: (0 3, (12,6), (13,6)) 
+incoming edges: (0 2, (11,6), (12,6)) (0 3, (12,6), (13,6)) edges: (0 4, (13,6), (14,6)) 
+incoming edges: (0 3, (12,6), (13,6)) (0 4, (13,6), (14,6)) edges: (0 5, (14,6), (15,6)) 
+incoming edges: (0 4, (13,6), (14,6)) (0 5, (14,6), (15,6)) edges: (0 6, (15,6), (15,5)) 
+incoming edges: (0 5, (14,6), (15,6)) (0 6, (15,6), (15,5)) edges: (0 7, (15,5), (15,4)) 
+incoming edges: (0 6, (15,6), (15,5)) (0 7, (15,5), (15,4)) edges: (0 8, (15,4), (16,4)) 
+incoming edges: (0 7, (15,5), (15,4)) (0 8, (15,4), (16,4)) edges: (0 9, (16,4), (17,4)) 
+incoming edges: (0 8, (15,4), (16,4)) (0 9, (16,4), (17,4)) edges: (0 10, (17,4), (18,4)) 
+incoming edges: (0 9, (16,4), (17,4)) (0 10, (17,4), (18,4)) edges: (0 11, (18,4), (19,4)) 
+incoming edges: (0 10, (17,4), (18,4)) (0 11, (18,4), (19,4)) edges: (0 12, (19,4), (20,4)) 
+incoming edges: (0 11, (18,4), (19,4)) (0 12, (19,4), (20,4)) edges: (0 13, (20,4), (21,4)) 
+incoming edges: (0 12, (19,4), (20,4)) (0 13, (20,4), (21,4)) edges: (0 14, (21,4), (21,3)) 
+incoming edges: (0 13, (20,4), (21,4)) (0 14, (21,4), (21,3)) edges: (0 15, (21,3), (22,3)) 
+incoming edges: (0 14, (21,4), (21,3)) (0 15, (21,3), (22,3)) edges: (0 16, (22,3), (23,3)) 
+incoming edges: (0 15, (21,3), (22,3)) (0 16, (22,3), (23,3)) edges: (0 17, (23,3), (24,3)) 
+incoming edges: (0 16, (22,3), (23,3)) (0 17, (23,3), (24,3)) edges: (0 18, (24,3), (24,2)) 
+incoming edges: (0 17, (23,3), (24,3)) (0 18, (24,3), (24,2)) edges: (0 19, (24,2), (25,2)) 
+incoming edges: (0 18, (24,3), (24,2)) (0 19, (24,2), (25,2)) edges: 
+
+incoming edges: (1 0, (19,28), (19,27)) edges: (1 1, (19,27), (18,27)) 
+incoming edges: (1 0, (19,28), (19,27)) (1 1, (19,27), (18,27)) edges: (1 2, (18,27), (18,26)) 
+incoming edges: (1 1, (19,27), (18,27)) (1 2, (18,27), (18,26)) edges: (1 3, (18,26), (17,26)) 
+incoming edges: (1 2, (18,27), (18,26)) (1 3, (18,26), (17,26)) edges: (1 4, (17,26), (16,26)) 
+incoming edges: (1 3, (18,26), (17,26)) (1 4, (17,26), (16,26)) edges: (1 5, (16,26), (15,26)) 
+incoming edges: (1 4, (17,26), (16,26)) (1 5, (16,26), (15,26)) edges: (1 6, (15,26), (15,25)) 
+incoming edges: (1 5, (16,26), (15,26)) (1 6, (15,26), (15,25)) edges: (1 7, (15,25), (15,24)) 
+incoming edges: (1 6, (15,26), (15,25)) (1 7, (15,25), (15,24)) edges: (1 8, (15,24), (15,23)) 
+incoming edges: (1 7, (15,25), (15,24)) (1 8, (15,24), (15,23)) edges: (1 9, (15,23), (15,22)) 
+incoming edges: (1 8, (15,24), (15,23)) (1 9, (15,23), (15,22)) edges: (1 10, (15,22), (16,22)) 
+incoming edges: (1 9, (15,23), (15,22)) (1 10, (15,22), (16,22)) edges: (1 11, (16,22), (16,21)) 
+incoming edges: (1 10, (15,22), (16,22)) (1 11, (16,22), (16,21)) edges: (1 12, (16,21), (17,21)) 
+incoming edges: (1 11, (16,22), (16,21)) (1 12, (16,21), (17,21)) edges: (1 13, (17,21), (18,21)) 
+incoming edges: (1 12, (16,21), (17,21)) (1 13, (17,21), (18,21)) edges: (1 14, (18,21), (18,20)) 
+incoming edges: (1 13, (17,21), (18,21)) (1 14, (18,21), (18,20)) edges: (1 15, (18,20), (19,20)) 
+incoming edges: (1 14, (18,21), (18,20)) (1 15, (18,20), (19,20)) edges: (1 16, (19,20), (19,19)) 
+incoming edges: (1 15, (18,20), (19,20)) (1 16, (19,20), (19,19)) edges: 
+
+[2024-12-31 18:29:58.744790] [0x00007f689dbf3740] [info]    [timestep=0] planner returns
+Time Usage: 7e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.745769] [0x00007f689dbf3740] [info]    [timestep=1] planner returns
+Time Usage: 7e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.746500] [0x00007f689dbf3740] [info]    [timestep=2] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.747215] [0x00007f689dbf3740] [info]    [timestep=3] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.747777] [0x00007f689dbf3740] [info]    [timestep=4] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.748419] [0x00007f689dbf3740] [info]    [timestep=5] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.749258] [0x00007f689dbf3740] [info]    [timestep=6] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.749927] [0x00007f689dbf3740] [info]    [timestep=7] planner returns
+Time Usage: 1.3e-05
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.750666] [0x00007f689dbf3740] [info]    [timestep=8] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.751348] [0x00007f689dbf3740] [info]    [timestep=9] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.752065] [0x00007f689dbf3740] [info]    [timestep=10] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.752738] [0x00007f689dbf3740] [info]    [timestep=11] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.753387] [0x00007f689dbf3740] [info]    [timestep=12] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.754070] [0x00007f689dbf3740] [info]    [timestep=13] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.754749] [0x00007f689dbf3740] [info]    [timestep=14] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.755409] [0x00007f689dbf3740] [info]    [timestep=15] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.756042] [0x00007f689dbf3740] [info]    [timestep=16] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.756681] [0x00007f689dbf3740] [info]    [timestep=17] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.757323] [0x00007f689dbf3740] [info]    [timestep=18] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.757978] [0x00007f689dbf3740] [info]    [timestep=19] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.758655] [0x00007f689dbf3740] [info]    [timestep=20] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.759294] [0x00007f689dbf3740] [info]    [timestep=21] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.759960] [0x00007f689dbf3740] [info]    [timestep=22] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+Happened at 1 start: 17,21
+[2024-12-31 18:29:58.760777] [0x00007f689dbf3740] [info]    [timestep=23] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+Agent0 : S=(23,3) ; G=(19,15)
+Agent1 : S=(18,20) ; G=(27,7)
+Disjoint WDG+R+C+T+BP with SIPP    : Agent 0 (18 -->18): 739->707->675->676->677->678->646->647->648->649->650->651->683->684->685->686->687->655->623->
+Agent 1 (22 -->22): 596->628->627->659->658->657->689->721->720->719->718->750->782->814->813->812->811->810->809->808->807->839->871->
+Lowerbound increases from 0 to 40
+
+Pop Node 1 from focal ( f = 40 + 0, f hat = 40 + 0, d = 0 ) with 0 new paths 
+Succeed,40,0.001542,0,42,40,40,40,
+(0 0, (23,3), (22,3)) (0 1, (22,3), (21,3)) (0 2, (21,3), (21,4)) (0 3, (21,4), (21,5)) (0 4, (21,5), (21,6)) (0 5, (21,6), (20,6)) (0 6, (20,6), (20,7)) (0 7, (20,7), (20,8)) (0 8, (20,8), (20,9)) (0 9, (20,9), (20,10)) (0 10, (20,10), (20,11)) (0 11, (20,11), (21,11)) (0 12, (21,11), (21,12)) (0 13, (21,12), (21,13)) (0 14, (21,13), (21,14)) (0 15, (21,14), (21,15)) (0 16, (21,15), (20,15)) (0 17, (20,15), (19,15)) 
+(1 0, (18,20), (19,20)) (1 1, (19,20), (19,19)) (1 2, (19,19), (20,19)) (1 3, (20,19), (20,18)) (1 4, (20,18), (20,17)) (1 5, (20,17), (21,17)) (1 6, (21,17), (22,17)) (1 7, (22,17), (22,16)) (1 8, (22,16), (22,15)) (1 9, (22,15), (22,14)) (1 10, (22,14), (23,14)) (1 11, (23,14), (24,14)) (1 12, (24,14), (25,14)) (1 13, (25,14), (25,13)) (1 14, (25,13), (25,12)) (1 15, (25,12), (25,11)) (1 16, (25,11), (25,10)) (1 17, (25,10), (25,9)) (1 18, (25,9), (25,8)) (1 19, (25,8), (25,7)) (1 20, (25,7), (26,7)) (1 21, (26,7), (27,7)) 
+incoming edges: (0 0, (23,3), (22,3)) edges: (0 1, (22,3), (21,3)) 
+incoming edges: (0 0, (23,3), (22,3)) (0 1, (22,3), (21,3)) edges: (0 2, (21,3), (21,4)) 
+incoming edges: (0 1, (22,3), (21,3)) (0 2, (21,3), (21,4)) edges: (0 3, (21,4), (21,5)) 
+incoming edges: (0 2, (21,3), (21,4)) (0 3, (21,4), (21,5)) edges: (0 4, (21,5), (21,6)) 
+incoming edges: (0 3, (21,4), (21,5)) (0 4, (21,5), (21,6)) edges: (0 5, (21,6), (20,6)) 
+incoming edges: (0 4, (21,5), (21,6)) (0 5, (21,6), (20,6)) edges: (0 6, (20,6), (20,7)) 
+incoming edges: (0 5, (21,6), (20,6)) (0 6, (20,6), (20,7)) edges: (0 7, (20,7), (20,8)) 
+incoming edges: (0 6, (20,6), (20,7)) (0 7, (20,7), (20,8)) edges: (0 8, (20,8), (20,9)) 
+incoming edges: (0 7, (20,7), (20,8)) (0 8, (20,8), (20,9)) edges: (0 9, (20,9), (20,10)) 
+incoming edges: (0 8, (20,8), (20,9)) (0 9, (20,9), (20,10)) edges: (0 10, (20,10), (20,11)) 
+incoming edges: (0 9, (20,9), (20,10)) (0 10, (20,10), (20,11)) edges: (0 11, (20,11), (21,11)) 
+incoming edges: (0 10, (20,10), (20,11)) (0 11, (20,11), (21,11)) edges: (0 12, (21,11), (21,12)) 
+incoming edges: (0 11, (20,11), (21,11)) (0 12, (21,11), (21,12)) edges: (0 13, (21,12), (21,13)) 
+incoming edges: (0 12, (21,11), (21,12)) (0 13, (21,12), (21,13)) edges: (0 14, (21,13), (21,14)) 
+incoming edges: (0 13, (21,12), (21,13)) (0 14, (21,13), (21,14)) edges: (0 15, (21,14), (21,15)) 
+incoming edges: (0 14, (21,13), (21,14)) (0 15, (21,14), (21,15)) edges: (0 16, (21,15), (20,15)) 
+incoming edges: (0 15, (21,14), (21,15)) (0 16, (21,15), (20,15)) edges: (0 17, (20,15), (19,15)) 
+incoming edges: (0 16, (21,15), (20,15)) (0 17, (20,15), (19,15)) edges: 
+
+incoming edges: (1 0, (18,20), (19,20)) edges: (1 1, (19,20), (19,19)) 
+incoming edges: (1 0, (18,20), (19,20)) (1 1, (19,20), (19,19)) edges: (1 2, (19,19), (20,19)) 
+incoming edges: (1 1, (19,20), (19,19)) (1 2, (19,19), (20,19)) edges: (1 3, (20,19), (20,18)) 
+incoming edges: (1 2, (19,19), (20,19)) (1 3, (20,19), (20,18)) edges: (1 4, (20,18), (20,17)) 
+incoming edges: (1 3, (20,19), (20,18)) (1 4, (20,18), (20,17)) edges: (1 5, (20,17), (21,17)) 
+incoming edges: (1 4, (20,18), (20,17)) (1 5, (20,17), (21,17)) edges: (1 6, (21,17), (22,17)) 
+incoming edges: (1 5, (20,17), (21,17)) (1 6, (21,17), (22,17)) edges: (1 7, (22,17), (22,16)) 
+incoming edges: (1 6, (21,17), (22,17)) (1 7, (22,17), (22,16)) edges: (1 8, (22,16), (22,15)) 
+incoming edges: (1 7, (22,17), (22,16)) (1 8, (22,16), (22,15)) edges: (1 9, (22,15), (22,14)) 
+incoming edges: (1 8, (22,16), (22,15)) (1 9, (22,15), (22,14)) edges: (1 10, (22,14), (23,14)) 
+incoming edges: (1 9, (22,15), (22,14)) (1 10, (22,14), (23,14)) edges: (1 11, (23,14), (24,14)) 
+incoming edges: (1 10, (22,14), (23,14)) (1 11, (23,14), (24,14)) edges: (1 12, (24,14), (25,14)) 
+incoming edges: (1 11, (23,14), (24,14)) (1 12, (24,14), (25,14)) edges: (1 13, (25,14), (25,13)) 
+incoming edges: (1 12, (24,14), (25,14)) (1 13, (25,14), (25,13)) edges: (1 14, (25,13), (25,12)) 
+incoming edges: (1 13, (25,14), (25,13)) (1 14, (25,13), (25,12)) edges: (1 15, (25,12), (25,11)) 
+incoming edges: (1 14, (25,13), (25,12)) (1 15, (25,12), (25,11)) edges: (1 16, (25,11), (25,10)) 
+incoming edges: (1 15, (25,12), (25,11)) (1 16, (25,11), (25,10)) edges: (1 17, (25,10), (25,9)) 
+incoming edges: (1 16, (25,11), (25,10)) (1 17, (25,10), (25,9)) edges: (1 18, (25,9), (25,8)) 
+incoming edges: (1 17, (25,10), (25,9)) (1 18, (25,9), (25,8)) edges: (1 19, (25,8), (25,7)) 
+incoming edges: (1 18, (25,9), (25,8)) (1 19, (25,8), (25,7)) edges: (1 20, (25,7), (26,7)) 
+incoming edges: (1 19, (25,8), (25,7)) (1 20, (25,7), (26,7)) edges: (1 21, (26,7), (27,7)) 
+incoming edges: (1 20, (25,7), (26,7)) (1 21, (26,7), (27,7)) edges: 
+
+num of agents:2
+[2024-12-31 18:29:58.767476] [0x00007f689dbf3740] [info]    [timestep=24] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.768227] [0x00007f689dbf3740] [info]    [timestep=25] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.768892] [0x00007f689dbf3740] [info]    [timestep=26] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.769567] [0x00007f689dbf3740] [info]    [timestep=27] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.770212] [0x00007f689dbf3740] [info]    [timestep=28] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.770841] [0x00007f689dbf3740] [info]    [timestep=29] planner returns
+Time Usage: 8e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.771597] [0x00007f689dbf3740] [info]    [timestep=30] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.772230] [0x00007f689dbf3740] [info]    [timestep=31] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.772881] [0x00007f689dbf3740] [info]    [timestep=32] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.773553] [0x00007f689dbf3740] [info]    [timestep=33] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.774195] [0x00007f689dbf3740] [info]    [timestep=34] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.774846] [0x00007f689dbf3740] [info]    [timestep=35] planner returns
+Time Usage: 7e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.775673] [0x00007f689dbf3740] [info]    [timestep=36] planner returns
+Time Usage: 9e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.776315] [0x00007f689dbf3740] [info]    [timestep=37] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.776951] [0x00007f689dbf3740] [info]    [timestep=38] planner returns
+Time Usage: 3e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.777572] [0x00007f689dbf3740] [info]    [timestep=39] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.778324] [0x00007f689dbf3740] [info]    [timestep=40] planner returns
+Time Usage: 1.2e-05
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.779056] [0x00007f689dbf3740] [info]    [timestep=41] planner returns
+Time Usage: 9e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.780276] [0x00007f689dbf3740] [info]    [timestep=42] planner returns
+Time Usage: 7e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.781016] [0x00007f689dbf3740] [info]    [timestep=43] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.781713] [0x00007f689dbf3740] [info]    [timestep=44] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.782322] [0x00007f689dbf3740] [info]    [timestep=45] planner returns
+Time Usage: 3e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.783024] [0x00007f689dbf3740] [info]    [timestep=46] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.783764] [0x00007f689dbf3740] [info]    [timestep=47] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+Happened at 0 start: 21,13
+[2024-12-31 18:29:58.784530] [0x00007f689dbf3740] [info]    [timestep=48] planner returns
+Time Usage: 9e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+Agent0 : S=(21,15) ; G=(19,15)
+Agent1 : S=(25,13) ; G=(27,7)
+Disjoint WDG+R+C+T+BP with SIPP    : Agent 0 (2 -->2): 687->655->623->
+Agent 1 (8 -->8): 813->812->811->810->809->808->807->839->871->
+Lowerbound increases from 0 to 10
+
+Pop Node 1 from focal ( f = 10 + 0, f hat = 10 + 0, d = 0 ) with 0 new paths 
+Succeed,10,0.000692,0,12,10,10,10,
+(0 0, (21,15), (20,15)) (0 1, (20,15), (19,15)) 
+(1 0, (25,13), (25,12)) (1 1, (25,12), (25,11)) (1 2, (25,11), (25,10)) (1 3, (25,10), (25,9)) (1 4, (25,9), (25,8)) (1 5, (25,8), (25,7)) (1 6, (25,7), (26,7)) (1 7, (26,7), (27,7)) 
+incoming edges: (0 0, (21,15), (20,15)) edges: (0 1, (20,15), (19,15)) 
+incoming edges: (0 0, (21,15), (20,15)) (0 1, (20,15), (19,15)) edges: 
+
+incoming edges: (1 0, (25,13), (25,12)) edges: (1 1, (25,12), (25,11)) 
+incoming edges: (1 0, (25,13), (25,12)) (1 1, (25,12), (25,11)) edges: (1 2, (25,11), (25,10)) 
+incoming edges: (1 1, (25,12), (25,11)) (1 2, (25,11), (25,10)) edges: (1 3, (25,10), (25,9)) 
+incoming edges: (1 2, (25,11), (25,10)) (1 3, (25,10), (25,9)) edges: (1 4, (25,9), (25,8)) 
+incoming edges: (1 3, (25,10), (25,9)) (1 4, (25,9), (25,8)) edges: (1 5, (25,8), (25,7)) 
+incoming edges: (1 4, (25,9), (25,8)) (1 5, (25,8), (25,7)) edges: (1 6, (25,7), (26,7)) 
+incoming edges: (1 5, (25,8), (25,7)) (1 6, (25,7), (26,7)) edges: (1 7, (26,7), (27,7)) 
+incoming edges: (1 6, (25,7), (26,7)) (1 7, (26,7), (27,7)) edges: 
+
+num of agents:2
+[2024-12-31 18:29:58.790556] [0x00007f689dbf3740] [info]    [timestep=49] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.791326] [0x00007f689dbf3740] [info]    [timestep=50] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.791947] [0x00007f689dbf3740] [info]    [timestep=51] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.792537] [0x00007f689dbf3740] [info]    [timestep=52] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.793115] [0x00007f689dbf3740] [info]    [timestep=53] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.793691] [0x00007f689dbf3740] [info]    [timestep=54] planner returns
+Time Usage: 7e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+Happened at 1 start: 25,9
+[2024-12-31 18:29:58.795069] [0x00007f689dbf3740] [info]    [timestep=55] planner returns
+Time Usage: 6e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+Agent0 : S=(20,15) ; G=(25,2)
+Agent1 : S=(25,7) ; G=(27,7)
+Disjoint WDG+R+C+T+BP with SIPP    : Agent 0 (18 -->18): 655->654->653->685->684->683->682->714->746->778->810->809->808->807->806->805->804->803->802->
+Agent 1 (2 -->2): 807->839->871->
+Lowerbound increases from 0 to 20
+
+Pop Node 1 from focal ( f = 20 + 0, f hat = 20 + 0, d = 0 ) with 0 new paths 
+Succeed,20,0.00102,0,22,20,20,20,
+(0 0, (20,15), (20,14)) (0 1, (20,14), (20,13)) (0 2, (20,13), (21,13)) (0 3, (21,13), (21,12)) (0 4, (21,12), (21,11)) (0 5, (21,11), (21,10)) (0 6, (21,10), (22,10)) (0 7, (22,10), (23,10)) (0 8, (23,10), (24,10)) (0 9, (24,10), (25,10)) (0 10, (25,10), (25,9)) (0 11, (25,9), (25,8)) (0 12, (25,8), (25,7)) (0 13, (25,7), (25,6)) (0 14, (25,6), (25,5)) (0 15, (25,5), (25,4)) (0 16, (25,4), (25,3)) (0 17, (25,3), (25,2)) 
+(1 0, (25,7), (26,7)) (1 1, (26,7), (27,7)) 
+incoming edges: (0 0, (20,15), (20,14)) edges: (0 1, (20,14), (20,13)) 
+incoming edges: (0 0, (20,15), (20,14)) (0 1, (20,14), (20,13)) edges: (0 2, (20,13), (21,13)) 
+incoming edges: (0 1, (20,14), (20,13)) (0 2, (20,13), (21,13)) edges: (0 3, (21,13), (21,12)) 
+incoming edges: (0 2, (20,13), (21,13)) (0 3, (21,13), (21,12)) edges: (0 4, (21,12), (21,11)) 
+incoming edges: (0 3, (21,13), (21,12)) (0 4, (21,12), (21,11)) edges: (0 5, (21,11), (21,10)) 
+incoming edges: (0 4, (21,12), (21,11)) (0 5, (21,11), (21,10)) edges: (0 6, (21,10), (22,10)) 
+incoming edges: (0 5, (21,11), (21,10)) (0 6, (21,10), (22,10)) edges: (0 7, (22,10), (23,10)) 
+incoming edges: (0 6, (21,10), (22,10)) (0 7, (22,10), (23,10)) edges: (0 8, (23,10), (24,10)) 
+incoming edges: (0 7, (22,10), (23,10)) (0 8, (23,10), (24,10)) edges: (0 9, (24,10), (25,10)) 
+incoming edges: (0 8, (23,10), (24,10)) (0 9, (24,10), (25,10)) edges: (0 10, (25,10), (25,9)) 
+incoming edges: (0 9, (24,10), (25,10)) (0 10, (25,10), (25,9)) edges: (0 11, (25,9), (25,8)) 
+incoming edges: (0 10, (25,10), (25,9)) (0 11, (25,9), (25,8)) edges: (0 12, (25,8), (25,7)) 
+incoming edges: (0 11, (25,9), (25,8)) (1 0, (25,7), (26,7)) (0 12, (25,8), (25,7)) edges: (0 13, (25,7), (25,6)) 
+incoming edges: (0 12, (25,8), (25,7)) (0 13, (25,7), (25,6)) edges: (0 14, (25,6), (25,5)) 
+incoming edges: (0 13, (25,7), (25,6)) (0 14, (25,6), (25,5)) edges: (0 15, (25,5), (25,4)) 
+incoming edges: (0 14, (25,6), (25,5)) (0 15, (25,5), (25,4)) edges: (0 16, (25,4), (25,3)) 
+incoming edges: (0 15, (25,5), (25,4)) (0 16, (25,4), (25,3)) edges: (0 17, (25,3), (25,2)) 
+incoming edges: (0 16, (25,4), (25,3)) (0 17, (25,3), (25,2)) edges: 
+
+incoming edges: (1 0, (25,7), (26,7)) edges: (1 1, (26,7), (27,7)) (0 12, (25,8), (25,7)) 
+incoming edges: (1 0, (25,7), (26,7)) (1 1, (26,7), (27,7)) edges: 
+
+num of agents:2
+[2024-12-31 18:29:58.801245] [0x00007f689dbf3740] [info]    [timestep=56] planner returns
+Time Usage: 5e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+[2024-12-31 18:29:58.801880] [0x00007f689dbf3740] [info]    [timestep=57] planner returns
+Time Usage: 4e-06
+new free agents: 0 new tasks: 0
+free agents: 0 free tasks: 1
+num of agents:2
+Agent 0 real location doesn't match
+Agent 0 real location19,15
+Agent 0 adg location 20,15
+(0 0, (20,15), (20,14)) (0 1, (20,14), (20,13)) (0 2, (20,13), (21,13)) (0 3, (21,13), (21,12)) (0 4, (21,12), (21,11)) (0 5, (21,11), (21,10)) (0 6, (21,10), (22,10)) (0 7, (22,10), (23,10)) (0 8, (23,10), (24,10)) (0 9, (24,10), (25,10)) (0 10, (25,10), (25,9)) (0 11, (25,9), (25,8)) (0 12, (25,8), (25,7)) (0 13, (25,7), (25,6)) (0 14, (25,6), (25,5)) (0 15, (25,5), (25,4)) (0 16, (25,4), (25,3)) (0 17, (25,3), (25,2)) 
+(1 0, (25,7), (26,7)) (1 1, (26,7), (27,7)) 
+incoming edges: (0 0, (20,15), (20,14)) edges: (0 1, (20,14), (20,13)) 
+incoming edges: (0 0, (20,15), (20,14)) (0 1, (20,14), (20,13)) edges: (0 2, (20,13), (21,13)) 
+incoming edges: (0 1, (20,14), (20,13)) (0 2, (20,13), (21,13)) edges: (0 3, (21,13), (21,12)) 
+incoming edges: (0 2, (20,13), (21,13)) (0 3, (21,13), (21,12)) edges: (0 4, (21,12), (21,11)) 
+incoming edges: (0 3, (21,13), (21,12)) (0 4, (21,12), (21,11)) edges: (0 5, (21,11), (21,10)) 
+incoming edges: (0 4, (21,12), (21,11)) (0 5, (21,11), (21,10)) edges: (0 6, (21,10), (22,10)) 
+incoming edges: (0 5, (21,11), (21,10)) (0 6, (21,10), (22,10)) edges: (0 7, (22,10), (23,10)) 
+incoming edges: (0 6, (21,10), (22,10)) (0 7, (22,10), (23,10)) edges: (0 8, (23,10), (24,10)) 
+incoming edges: (0 7, (22,10), (23,10)) (0 8, (23,10), (24,10)) edges: (0 9, (24,10), (25,10)) 
+incoming edges: (0 8, (23,10), (24,10)) (0 9, (24,10), (25,10)) edges: (0 10, (25,10), (25,9)) 
+incoming edges: (0 9, (24,10), (25,10)) (0 10, (25,10), (25,9)) edges: (0 11, (25,9), (25,8)) 
+incoming edges: (0 10, (25,10), (25,9)) (0 11, (25,9), (25,8)) edges: (0 12, (25,8), (25,7)) 
+incoming edges: (0 11, (25,9), (25,8)) (1 0, (25,7), (26,7)) (0 12, (25,8), (25,7)) edges: (0 13, (25,7), (25,6)) 
+incoming edges: (0 12, (25,8), (25,7)) (0 13, (25,7), (25,6)) edges: (0 14, (25,6), (25,5)) 
+incoming edges: (0 13, (25,7), (25,6)) (0 14, (25,6), (25,5)) edges: (0 15, (25,5), (25,4)) 
+incoming edges: (0 14, (25,6), (25,5)) (0 15, (25,5), (25,4)) edges: (0 16, (25,4), (25,3)) 
+incoming edges: (0 15, (25,5), (25,4)) (0 16, (25,4), (25,3)) edges: (0 17, (25,3), (25,2)) 
+incoming edges: (0 16, (25,4), (25,3)) (0 17, (25,3), (25,2)) edges: 
+
+incoming edges: (1 0, (25,7), (26,7)) edges: (1 1, (26,7), (27,7)) (0 12, (25,8), (25,7)) 
+incoming edges: (1 0, (25,7), (26,7)) (1 1, (26,7), (27,7)) edges: 
+

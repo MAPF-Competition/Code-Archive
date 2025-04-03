@@ -1,0 +1,5 @@
+{
+    "scheduler": "default",
+    "planner": "causal_pibt",
+    "map_weights_path": ""
+}

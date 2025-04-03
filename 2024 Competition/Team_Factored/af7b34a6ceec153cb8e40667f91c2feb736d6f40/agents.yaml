@@ -1,0 +1,5 @@
+random: "./python/pyMAPFPlanner_random_policy.py"
+default: "./python/pyMAPFPlanner_default.py"
+naive: "./python/pyMAPFPlanner_naive_astar.py"
+kernel: "./python/pyMAPFPlanner_local_kernel_policy.py"
+follower: "./python/pyMAPFPlanner_follower.py"

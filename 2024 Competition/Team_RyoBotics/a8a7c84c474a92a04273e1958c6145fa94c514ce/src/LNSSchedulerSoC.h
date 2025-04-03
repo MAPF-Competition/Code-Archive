@@ -1,0 +1,23 @@
+#pragma once
+
+#include "SharedEnv.h"
+#include <vector>
+#include <random>
+#include "SchedulerUtils.h"
+
+namespace LNSSchedulerSoC
+{
+    void schedule_initialize(int preprocess_time_limit, SharedEnvironment *env);
+    void schedule_plan(int time_limit, std::vector<int> &proposed_schedule, SharedEnvironment *env);
+
+    // LNSの破壊・修復に関する関数
+    std::vector<int> destroy(double destroy_ratio,
+                             const std::unordered_set<int> &critical_agents);
+    void repair(std::unordered_map<int, int> &schedule, const std::unordered_map<int, int> &task_agent_map, const std::vector<int> &destroyed_agents, SharedEnvironment *env);
+    void generateInitialSchedule(std::vector<int> &proposed_schedule, SharedEnvironment *env, std::chrono::steady_clock::time_point end_time);
+    void optimizeAssignment(std::vector<int> &proposed_schedule, SharedEnvironment *env, std::chrono::steady_clock::time_point end_time);
+    // スケジュールの評価用関数をテンプレート化
+    template <typename ScheduleContainer>
+    std::pair<int, std::unordered_set<int>> evaluateSchedule(const ScheduleContainer &schedule, SharedEnvironment *env);
+    int calculateTaskCompletionTime(int agent_id, int task_id, SharedEnvironment *env);
+}

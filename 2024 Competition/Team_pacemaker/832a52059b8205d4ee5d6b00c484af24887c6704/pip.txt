@@ -1,0 +1,11 @@
+torch
+pybind11-global>=2.10.1
+numpy
+lap
+igraph
+numba
+pillow
+joblib
+faiss-cpu
+ortools
+git+https://github.com/u1234x1234/pynanoflann.git@0.0.8

@@ -1,0 +1,8 @@
+{
+    "mapFile": "../brc202d.map",
+    "agentFile": "../agents/brc202d_6500_0.agents",
+    "teamSize": 6500,
+    "taskFile": "../tasks/brc202d_6500_0.tasks",
+    "numTasksReveal": 1.5,
+    "version": "2024 LoRR"
+}

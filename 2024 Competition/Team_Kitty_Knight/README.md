@@ -1,4 +1,4 @@
-### Test Round:
+### Main Round:
 <table>
 <tr>
 <th rowspan='2'>Track</th>
@@ -81,5 +81,88 @@
 <td>152605</td>
 <td><a href='da7d428b40cc1425b381adefe9709d4accbfdfe1'>commit da7d428b40cc1425b381adefe9709d4accbfdfe1</a></td>
 <td>67a541d7a28af6365e586898</td>
+</tr>
+</table>
+
+### Test Round:
+<table>
+<tr>
+<th rowspan='2'>Track</th>
+<th rowspan='2'>Score</th>
+<th colspan='5'>Total Tasks Finished</th>
+<th rowspan='2'>Entries</th>
+<th rowspan='2'>Submission ID</th></tr>
+<tr>
+<th>random_32_32_20_100</th>
+<th>brc202d_500</th>
+<th>paris_1_256_250</th>
+<th>sortation_large_2000</th>
+<th>warehouse_large_5000</th>
+</tr>
+<tr>
+<td>All</td>
+<td>4.805</td>
+<td>975</td>
+<td>1006</td>
+<td>456</td>
+<td>15463</td>
+<td>94232</td>
+<td><a href='4761d4b3c416d35bbb1d414d57032edb0bf7cc7e'>commit 4761d4b3c416d35bbb1d414d57032edb0bf7cc7e</a></td>
+<td>67200a631ac3f355e921e69f</td>
+</tr>
+<tr>
+<td>Line Honors sortation_large_2000</td>
+<td>4.515</td>
+<td>1186</td>
+<td>1020</td>
+<td>456</td>
+<td>15508</td>
+<td>48573</td>
+<td><a href='c45dfe0c26258930d0205aa4d5e77e22c8392a16'>commit c45dfe0c26258930d0205aa4d5e77e22c8392a16</a></td>
+<td>67284c651ac3f355e923ecb1</td>
+</tr>
+<tr>
+<td>Line Honors random_32_32_20_100</td>
+<td>4.515</td>
+<td>1186</td>
+<td>1020</td>
+<td>456</td>
+<td>15508</td>
+<td>48573</td>
+<td><a href='c45dfe0c26258930d0205aa4d5e77e22c8392a16'>commit c45dfe0c26258930d0205aa4d5e77e22c8392a16</a></td>
+<td>67284c651ac3f355e923ecb1</td>
+</tr>
+<tr>
+<td>Line Honors brc202d_500</td>
+<td>4.515</td>
+<td>1186</td>
+<td>1020</td>
+<td>456</td>
+<td>15508</td>
+<td>48573</td>
+<td><a href='c45dfe0c26258930d0205aa4d5e77e22c8392a16'>commit c45dfe0c26258930d0205aa4d5e77e22c8392a16</a></td>
+<td>67284c651ac3f355e923ecb1</td>
+</tr>
+<tr>
+<td>Line Honors paris_1_256_250</td>
+<td>4.805</td>
+<td>975</td>
+<td>1006</td>
+<td>456</td>
+<td>15463</td>
+<td>94232</td>
+<td><a href='4761d4b3c416d35bbb1d414d57032edb0bf7cc7e'>commit 4761d4b3c416d35bbb1d414d57032edb0bf7cc7e</a></td>
+<td>67200a631ac3f355e921e69f</td>
+</tr>
+<tr>
+<td>Line Honors warehouse_large_5000</td>
+<td>4.805</td>
+<td>975</td>
+<td>1006</td>
+<td>456</td>
+<td>15463</td>
+<td>94232</td>
+<td><a href='4761d4b3c416d35bbb1d414d57032edb0bf7cc7e'>commit 4761d4b3c416d35bbb1d414d57032edb0bf7cc7e</a></td>
+<td>67200a631ac3f355e921e69f</td>
 </tr>
 </table>

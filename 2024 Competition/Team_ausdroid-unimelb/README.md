@@ -1,4 +1,4 @@
-### Test Round:
+### Main Round:
 <table>
 <tr>
 <th rowspan='2'>Track</th>

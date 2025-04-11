@@ -1,4 +1,4 @@
-### Test Round:
+### Main Round:
 <table>
 <tr>
 <th rowspan='2'>Track</th>
@@ -161,5 +161,33 @@
 <td>0</td>
 <td><a href='e323feb67c2d117d7f24103ed6704f7040e017af'>commit e323feb67c2d117d7f24103ed6704f7040e017af</a></td>
 <td>67b10a31af46293d1437b0bc</td>
+</tr>
+</table>
+
+### Test Round:
+<table>
+<tr>
+<th rowspan='2'>Track</th>
+<th rowspan='2'>Score</th>
+<th colspan='5'>Total Tasks Finished</th>
+<th rowspan='2'>Entries</th>
+<th rowspan='2'>Submission ID</th></tr>
+<tr>
+<th>random_32_32_20_100</th>
+<th>brc202d_500</th>
+<th>paris_1_256_250</th>
+<th>sortation_large_2000</th>
+<th>warehouse_large_5000</th>
+</tr>
+<tr>
+<td>All</td>
+<td>3.693</td>
+<td>885</td>
+<td>754</td>
+<td>343</td>
+<td>11470</td>
+<td>67473</td>
+<td><a href='1f654b03f36505971d3adb5b8514a8c00260008e'>commit 1f654b03f36505971d3adb5b8514a8c00260008e</a></td>
+<td>67209fcc1ac3f355e92201c0</td>
 </tr>
 </table>

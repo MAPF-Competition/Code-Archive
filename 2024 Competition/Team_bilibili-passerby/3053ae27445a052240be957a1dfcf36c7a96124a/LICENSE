@@ -1,35 +1,22 @@
 
 The files in this folder are licensed with two different licenses. 
 The following files are licensed under the "LICENSE_ROBOT_RUNNER":
-    Debug_and_Visualise_Your_Planner.md
-    Input_Output_Format.md
-    Prepare_Your_Planner.md
-    RunInDocker.sh
-    Submission_Instruction.md
-    Working_with_Preprocessed_Data.md
-    example_problems/*
-    image/*
-    inc/ActionModel.h
-    inc/CompetitionSystem.h
-    inc/Evaluation.h
-    inc/Grid.h
-    inc/Logger.h
-    inc/SharedEnv.h
-    inc/States.h
-    inc/Tasks.h
-    inc/common.h
-    python/MAPFbinding.cpp
-    python/pyEnvironment.hpp
-    python/pyMAPFPlanner.cpp
-    python/pyMAPFPlanner.hpp
-    src/ActionModel.cpp
-    src/CompetitionSystem.cpp
-    src/Evaluation.cpp
-    src/Grid.cpp
-    src/Logger.cpp
-    src/States.cpp
-    src/common.cpp
-    src/driver.cpp
+    Debug_and_Visualise_Your_Planner.md Input_Output_Format.md  Prepare_Your_Planner.md RunInDocker.sh  
+    Submission_Instruction.md   Working_with_Preprocessed_Data.md   example_problems/*  image/*
+    src/ActionModel.cpp, src/Evaluation.cpp, src/Logger.cpp, src/States.cpp,src/driver.cpp,
+    src/CompetitionSystem.cpp, src/Grid.cpp, src/common.cpp, src/TaskManager.cpp, 
+    inc/ActionModel.h, inc/Evaluation.h, inc/Logger.h, inc/SharedEnv.h, inc/Tasks.h, inc/CompetitionSystem.h, inc/Grid.h,
+    inc/States.h, inc/common.h, inc/TaskManager.h,
+    default_planner/Memory.h, default_planner/heap.h, default_planner/pibt.cpp, default_planner/search_node.h, 
+    default_planner/planner.h, default_planner/search.cpp, default_planner/utils.cpp, default_planner/TrajLNS.h,
+    default_planner/flow.cpp, default_planner/heuristics.cpp, default_planner/pibt.h, default_planner/scheduler.cpp,
+    default_planner/search.h, default_planner/utils.h, default_planner/Types.h, default_planner/flow.h,
+    default_planner/heuristics.h, default_planner/planner.cpp, default_planner/scheduler.h,  
+    python/common/MAPFbinding.cpp, python/default_planner/pyMAPFPlanner.cpp, 
+    python/default_scheduler/pyTaskScheduler.hpp, python/user_scheduler/pyTaskScheduler.cpp, python/common/pyEntry.hpp, 
+    python/default_planner/pyMAPFPlanner.hpp, python/user_planner/pyMAPFPlanner.cpp, 
+    python/user_scheduler/pyTaskScheduler.hpp, python/common/pyEnvironment.hpp, 
+    python/default_scheduler/pyTaskScheduler.cpp, python/user_planner/pyMAPFPlanner.hpp, python/set_track.bash        
     upgrade_start_kit.sh
 
 All other files (if not separately stated in the file) are licensed under the "LICENSE_PARTICIPANT".

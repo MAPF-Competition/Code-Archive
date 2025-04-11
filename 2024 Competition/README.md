@@ -1,12 +1,25 @@
-# 2024 Main Round Code Archive
+# 2024 League of Robot Runners Code Archive
+
+This folder contains the code submissions for the 2024 Main Round and Test Round of the League of Robot Runners competition. 
+The folder is organised by team names, and each team has a separate folder that contains the submitted code organised with the commit hash of the submission.
+In this folder, you will find:
+- The codes for each entry that is on the leaderboard of the Main Round and Test Round.
+- The codes for each submission that create the best-known solutions for each benchmark instance.
+- Summary tables with details of entries: such as team name, the achieved score, the total tasks finished on each benchmark instance, and the link to the corresponding code.
+
+Note that, all the evaluation instances and best-known solutions from the 2024 Main Round and 2024 Test Round competitions are available in our [Benchmark Archive Repo](https://github.com/MAPF-Competition/Benchmark-Archive/tree/main/2024%20Competition)
+  
 ## Teams and Entries:
+
+*<sup>Note: the Submission ID in the table is a unique identifier of a submission. It helps to distinguish submissions with the same implementation/code but output solutions with different scores/total tasks finished.</sup>*
+
 ### Main Round:
 <table>
 <tr>
 <th rowspan='2'>Team</th>
 <th rowspan='2'>Track</th>
 <th rowspan='2'>Score</th>
-<th colspan='10'>Total Errands Finished</th>
+<th colspan='10'>Total Tasks Finished</th>
 <th rowspan='2'>Entries</th>
 <th rowspan='2'>Submission ID</th></tr>
 <tr>
@@ -1474,7 +1487,7 @@
 <th rowspan='2'>Team</th>
 <th rowspan='2'>Track</th>
 <th rowspan='2'>Score</th>
-<th colspan='5'>Total Errands Finished</th>
+<th colspan='5'>Total Tasks Finished</th>
 <th rowspan='2'>Entries</th>
 <th rowspan='2'>Submission ID</th></tr>
 <tr>

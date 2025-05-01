@@ -11,7 +11,7 @@ Note that, all the evaluation instances and best-known solutions from the 2024 M
 
 ## Start-kit
 
-All codes in this folder are prepared based on the [2024 Competition Start-kit](https://github.com/MAPF-Competition/Start-Kit/tree/v2.1.2).
+All codes under this directory are prepared based on the [2024 Competition Start-kit](https://github.com/MAPF-Competition/Start-Kit/tree/v2.1.2).
 
 ## Teams and Entries:
 

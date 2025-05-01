@@ -9,6 +9,10 @@ In this folder, you will find:
 
 Note that, all the evaluation instances and best-known solutions from the 2023 Main Round and 2023 Test Round competitions are available in our [Benchmark Archive Repo](https://github.com/MAPF-Competition/Benchmark-Archive/tree/main/2023%20Competition)
   
+## Start-kit
+
+All codes in this folder are prepared based on the [2023 Competition Start-kit](https://github.com/MAPF-Competition/Start-Kit/tree/v1.1.5).
+
 ## Teams and Entries:
 
 *<sup>Note: the Submission ID in the table is a unique identifier of a submission. It helps to distinguish submissions with the same implementation/code but output solutions with different scores/total errands finished.</sup>*

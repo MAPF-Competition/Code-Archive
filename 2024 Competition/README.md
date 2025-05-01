@@ -7,8 +7,12 @@ In this folder, you will find:
 - The codes for each submission that create the best-known solutions for each benchmark instance.
 - Summary tables with details of entries: such as team name, the achieved score, the total tasks finished on each benchmark instance, and the link to the corresponding code.
 
-Note that, all the evaluation instances and best-known solutions from the 2024 Main Round and 2024 Test Round competitions are available in our [Benchmark Archive Repo](https://github.com/MAPF-Competition/Benchmark-Archive/tree/main/2024%20Competition)
-  
+Note that, all the evaluation instances and best-known solutions from the 2024 Main Round and 2024 Test Round competitions are available in our [Benchmark Archive Repo](https://github.com/MAPF-Competition/Benchmark-Archive/tree/main/2024%20Competition).
+
+## Start-kit
+
+All codes in this folder are prepared based on the [2024 Competition Start-kit](https://github.com/MAPF-Competition/Start-Kit/tree/v2.1.2).
+
 ## Teams and Entries:
 
 *<sup>Note: the Submission ID in the table is a unique identifier of a submission. It helps to distinguish submissions with the same implementation/code but output solutions with different scores/total tasks finished.</sup>*

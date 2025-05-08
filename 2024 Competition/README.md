@@ -40,7 +40,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_AIRLAB">Team_AIRLAB</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.05</td>
 <td>6118</td>
 <td>11636</td>
@@ -72,7 +72,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_ArthurFeng">Team_ArthurFeng</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.036</td>
 <td>6149</td>
 <td>11190</td>
@@ -89,7 +89,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=3><a href="Team_Ash">Team_Ash</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.08</td>
 <td>6134</td>
 <td>11882</td>
@@ -136,7 +136,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_Buyson">Team_Buyson</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>4.488</td>
 <td>4659</td>
 <td>8844</td>
@@ -168,7 +168,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_Default_Entry">Team_Default_Entry</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.062</td>
 <td>6144</td>
 <td>11884</td>
@@ -185,7 +185,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=3><a href="Team_Default_win">Team_Default_win</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.83</td>
 <td>7553</td>
 <td>13025</td>
@@ -232,7 +232,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_ETO">Team_ETO</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.048</td>
 <td>6147</td>
 <td>11688</td>
@@ -264,7 +264,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_Factored">Team_Factored</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.028</td>
 <td>6162</td>
 <td>11755</td>
@@ -296,7 +296,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_FlyCT">Team_FlyCT</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.034</td>
 <td>6137</td>
 <td>11211</td>
@@ -328,7 +328,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=3><a href="Team_Golden_Hawk">Team_Golden_Hawk</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.053</td>
 <td>6137</td>
 <td>11779</td>
@@ -375,7 +375,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_Gonnnnnnnn">Team_Gonnnnnnnn</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>0.602</td>
 <td>101</td>
 <td>0</td>
@@ -407,7 +407,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_Hipparcos">Team_Hipparcos</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>2.648</td>
 <td>3964</td>
 <td>4312</td>
@@ -439,7 +439,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_KBC">Team_KBC</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.037</td>
 <td>6140</td>
 <td>11329</td>
@@ -456,7 +456,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=4><a href="Team_Kitty_Knight">Team_Kitty_Knight</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>9.039</td>
 <td>8445</td>
 <td>16997</td>
@@ -518,7 +518,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_LSRC">Team_LSRC</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.275</td>
 <td>6723</td>
 <td>12666</td>
@@ -550,7 +550,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_Lost">Team_Lost</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.056</td>
 <td>6156</td>
 <td>11760</td>
@@ -567,7 +567,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_MultiPathForger">Team_MultiPathForger</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>0.0</td>
 <td>0</td>
 <td>0</td>
@@ -599,7 +599,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_NO_Name">Team_NO_Name</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.849</td>
 <td>7287</td>
 <td>14003</td>
@@ -631,7 +631,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=9><a href="Team_No_Man's_Sky">Team_No_Man's_Sky</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>9.842</td>
 <td>8420</td>
 <td>16787</td>
@@ -768,7 +768,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=4><a href="Team_RAPID">Team_RAPID</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>7.946</td>
 <td>8009</td>
 <td>15888</td>
@@ -830,7 +830,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_RaHAIC">Team_RaHAIC</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>0.015</td>
 <td>0</td>
 <td>0</td>
@@ -862,7 +862,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_RyoBotics">Team_RyoBotics</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.794</td>
 <td>7026</td>
 <td>13376</td>
@@ -894,7 +894,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_SANO">Team_SANO</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.03</td>
 <td>6133</td>
 <td>11607</td>
@@ -911,7 +911,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=4><a href="Team_SYSU-LCIS">Team_SYSU-LCIS</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>8.527</td>
 <td>8442</td>
 <td>17010</td>
@@ -973,7 +973,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=3><a href="Team_Team">Team_Team</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.744</td>
 <td>7193</td>
 <td>13470</td>
@@ -1020,7 +1020,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_Test">Team_Test</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.088</td>
 <td>6135</td>
 <td>11756</td>
@@ -1052,7 +1052,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_UUUU">Team_UUUU</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.667</td>
 <td>7143</td>
 <td>13400</td>
@@ -1084,7 +1084,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_Zn">Team_Zn</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>6.138</td>
 <td>7338</td>
 <td>14031</td>
@@ -1116,7 +1116,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=3><a href="Team_ausdroid-unimelb">Team_ausdroid-unimelb</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.806</td>
 <td>7263</td>
 <td>13513</td>
@@ -1163,7 +1163,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_axp">Team_axp</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.193</td>
 <td>6806</td>
 <td>11899</td>
@@ -1180,7 +1180,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_bilibili-passerby">Team_bilibili-passerby</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.075</td>
 <td>6147</td>
 <td>11691</td>
@@ -1197,7 +1197,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_cant-find-my-way-home">Team_cant-find-my-way-home</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.074</td>
 <td>6150</td>
 <td>11754</td>
@@ -1214,7 +1214,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_doubleZ">Team_doubleZ</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.619</td>
 <td>7096</td>
 <td>13493</td>
@@ -1246,7 +1246,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_hcp">Team_hcp</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.794</td>
 <td>7177</td>
 <td>13562</td>
@@ -1278,7 +1278,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_johannesGG">Team_johannesGG</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.272</td>
 <td>6767</td>
 <td>12275</td>
@@ -1295,7 +1295,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_pacemaker">Team_pacemaker</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.256</td>
 <td>6756</td>
 <td>12491</td>
@@ -1327,7 +1327,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_root">Team_root</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.741</td>
 <td>7245</td>
 <td>13265</td>
@@ -1359,7 +1359,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=3><a href="Team_verstand">Team_verstand</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>6.375</td>
 <td>7226</td>
 <td>13747</td>
@@ -1406,7 +1406,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_whyzix">Team_whyzix</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.051</td>
 <td>6137</td>
 <td>11586</td>
@@ -1438,7 +1438,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=3><a href="Team_wonder">Team_wonder</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>5.885</td>
 <td>7179</td>
 <td>13694</td>
@@ -1503,7 +1503,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_10^9-i">Team_10^9-i</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.707</td>
 <td>887</td>
 <td>767</td>
@@ -1515,7 +1515,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=3><a href="Team_AIRLAB">Team_AIRLAB</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.725</td>
 <td>906</td>
 <td>766</td>
@@ -1547,7 +1547,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_Astar">Team_Astar</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.72</td>
 <td>898</td>
 <td>761</td>
@@ -1559,7 +1559,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_CLOBOT_FMS">Team_CLOBOT_FMS</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.703</td>
 <td>900</td>
 <td>749</td>
@@ -1581,7 +1581,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_Default_Entry">Team_Default_Entry</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.712</td>
 <td>894</td>
 <td>763</td>
@@ -1593,7 +1593,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_DyMAB">Team_DyMAB</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.731</td>
 <td>903</td>
 <td>765</td>
@@ -1605,7 +1605,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_Hipparcos">Team_Hipparcos</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.053</td>
 <td>725</td>
 <td>811</td>
@@ -1627,7 +1627,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_Hunter">Team_Hunter</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.719</td>
 <td>903</td>
 <td>756</td>
@@ -1649,7 +1649,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=6><a href="Team_Kitty_Knight">Team_Kitty_Knight</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>4.805</td>
 <td>975</td>
 <td>1006</td>
@@ -1711,7 +1711,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_No_Man's_Sky">Team_No_Man's_Sky</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.693</td>
 <td>885</td>
 <td>754</td>
@@ -1723,7 +1723,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_PapasBrandNewPigbag">Team_PapasBrandNewPigbag</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.714</td>
 <td>907</td>
 <td>749</td>
@@ -1745,7 +1745,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_axp">Team_axp</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>4.377</td>
 <td>1079</td>
 <td>783</td>
@@ -1757,7 +1757,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=3><a href="Team_bilibili-passerby">Team_bilibili-passerby</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.737</td>
 <td>916</td>
 <td>761</td>
@@ -1789,7 +1789,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=2><a href="Team_test111">Team_test111</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.715</td>
 <td>904</td>
 <td>754</td>
@@ -1811,7 +1811,7 @@ All codes under this directory are prepared based on the [2024 Competition Start
 </tr>
 <tr>
 <td rowspan=1><a href="Team_verstand">Team_verstand</a></td>
-<td>All</td>
+<td>Combined</td>
 <td>3.719</td>
 <td>897</td>
 <td>759</td>
